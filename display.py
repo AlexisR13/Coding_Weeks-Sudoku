@@ -10,7 +10,12 @@ def main_window():
     button_frame=Frame(root)
     info_label = Label(root, text="Choisissez comment saisir la grille:")
     scan_button = Button(button_frame,text="Scanner une grille",command=open_scan)
-    saisir_button = Button(button_frame,text="Saisir la grille",command=partial(saisir_grille,root))
+    game_grid = []
+    for i in range(9):
+        game_grid.append([])
+        for j in range(9):
+            game_grid[i].append('')
+    saisir_button = Button(button_frame,text="Saisir la grille",command=partial(saisir_grille,root,game_grid))
     quit_button = Button(root,text="Quitter",command=quit)
     info_label.grid(row=0,column=0)
     saisir_button.grid(row=0,column=0,ipady=15,padx =30)
@@ -73,7 +78,7 @@ def affiche_grille(root,grille):
 
     grid.grid()
 
-def saisir_grille(root):
+def saisir_grille(root,grille):
     def grid_to_list():
         sudoku_grid = []
         for i in range(9):
@@ -82,7 +87,7 @@ def saisir_grille(root):
                 value = graphical_grid[i][j][1].get()
                 if value=='':
                     sudoku_grid[i].append('')
-                else: sudoku_grid[i].append([int(value)])
+                else: sudoku_grid[i].append(int(value))
         print(sudoku_grid)
     window = Toplevel(root)
     window.title("Saisir une grille de Sudoku")
@@ -116,7 +121,9 @@ def saisir_grille(root):
         ligne = []
         for j in range(9):
             f = Frame(main_grid[i//3][j//3],bg="white", bd=1, relief='solid', height =100, width = 100)
-            ligne.append((f,Entry(f,font="Arial 20",justify="center",bd=0)))
+            e = Entry(f,font="Arial 20",justify="center",bd=0)
+            e.insert(0,str(grille[i][j]))
+            ligne.append((f,e))
             ligne[j][1].pack(expand = YES)
         graphical_grid.append(ligne)
     for i in range(9):
