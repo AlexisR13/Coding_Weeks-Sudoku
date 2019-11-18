@@ -1,6 +1,9 @@
 from tkinter import filedialog
 from tkinter import *
 from functools import partial
+from Thomas.photo_to_grid import *
+
+
 
 def main_window():
     root = Tk()
@@ -9,7 +12,7 @@ def main_window():
     root.geometry('280x200')
     button_frame=Frame(root)
     info_label = Label(root, text="Choisissez comment saisir la grille:")
-    scan_button = Button(button_frame,text="Scanner une grille",command=open_scan)
+    scan_button = Button(button_frame,text="Scanner une grille",command=partial(open_scan,root))
     game_grid = []
     for i in range(9):
         game_grid.append([])
@@ -28,10 +31,12 @@ def main_window():
     Grid.columnconfigure(button_frame,0,weight=1)
     Grid.columnconfigure(button_frame,1,weight=1)
     root.mainloop()
-def open_scan():
+def open_scan(root):
     #jpg
     filename = filedialog.askopenfilename(initialdir = "/images",title = "Selectionnez une image",filetypes = (("jpeg files","*.jpg"),("all files","*.*")))
-    print(filename)
+    grid = photo_to_grid(filename)
+    saisir_grille(root,grid)
+
 def affiche_grille(root,grille):
     grid = Toplevel(root)
     grid.title("Sudoku")

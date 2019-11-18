@@ -297,13 +297,25 @@ def get_digits(img, squares, size):
 	return digits
 
 
-def erosion(digits):
-	kernel = np.array([[01., 0, 0.], [0., 0.,0.], [1., 0., 1.]], np.uint8)
+def pure_white(digits):
+    for i in range(len(digits)):
+    	for j in range(len(digits[0])):
+    		for k in range(len(digits[0][0])):
+    			if digits[i][j][k] > 50:
+    				digits[i][j][k] = 255
+
+def pure_black(digits):
+    for i in range(len(digits)):
+    	for j in range(len(digits[0])):
+    		for k in range(len(digits[0][0])):
+    			if digits[i][j][k] <= 50:
+    				digits[i][j][k] = 0
+
+def rewrite(digits):
 	for i in range(len(digits)):
-		digits[i] = cv2.erode(digits[i], kernel)
+		kernel1 = np.array([[1.,0., 1.], [0., 0., 0.], [1., 0., 1.]], np.uint8)
+		digits[i] = cv2.erode(digits[i], kernel1)
 
-
-    	
 
 
 def parse_grid(path):
@@ -313,20 +325,34 @@ def parse_grid(path):
 	cropped = crop_and_warp(original, corners)
 	squares = infer_grid(cropped)
 	digits = get_digits(cropped, squares, 28)
-	erosion(digits)
-	return(digits)
-
-
-
-
-
-
-
-
+	pure_white(digits)
+	pure_black(digits)
+	#rewrite(digits)
+	pure_white(digits)
+	pure_black(digits)
+	return digits
 
 
 def main():
-	parse_grid('exemple 1.jpg')
+	parse_grid('exemple\exemple1.jpg')
 
 if __name__ == '__main__':
 	main()
+
+
+def is_empty(case):
+	rate = 0
+	total = 0
+	for i in case:
+		for j in i:
+			if j  > 200: #Case blanche
+				rate = rate + 1
+			total = total + 1
+	return rate/total < 0.01
+
+
+		
+#EX1 = parse_grid('exemple\exemple1.jpg')
+#print([[is_empty(EX1[i+9*j]) for i in range(9)] for j in range(9)])
+#show_digits(EX1)
+
