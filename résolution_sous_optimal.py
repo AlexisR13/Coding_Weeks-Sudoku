@@ -49,7 +49,6 @@ def next_case(grid,i,j):
             if ligne(grid,i,k) and colonne(grid,j,k) and carré(grid,i,j,k):
                 grid2 = np.copy(grid)
                 grid2[i][j] = k
-                print(grid2,i,j)
                 s,grid_f = next_case(grid2,i1,j1)               
                 if not s:
                     k +=1
