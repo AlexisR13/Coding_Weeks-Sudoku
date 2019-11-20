@@ -98,6 +98,79 @@ def affiche_grille(root,grille):
                 Grid.rowconfigure(main_grid[i][j],x,weight=1)
 
     grid.grid()
+def check_grid(root,grille):
+    
+    return None
+def play_grid(root,grille):
+    def grid_to_list():
+        sudoku_grid = []
+        for i in range(9):
+            sudoku_grid.append([])
+            for j in range(9):
+                value = graphical_grid[i][j][1].get()
+                if value=='':
+                    sudoku_grid[i].append('')
+                else: sudoku_grid[i].append(int(value))
+        check_grid(root,sudoku_grid)
+    window = Toplevel(root)
+    window.title("Sudoku")
+    window.grid()
+    grid = Frame(window)
+    frame_button = Frame(window)
+    check_button = Button(frame_button,text="Vérifier",command=grid_to_list)
+    check_button.grid(row=0,column=0,sticky=N+S+E+W)
+    Grid.columnconfigure(frame_button,0,weight=1)
+    Grid.rowconfigure(frame_button,0,weight=1)
+    main_grid = []
+    for i in range(3):
+        ligne = []
+        for j in range(3):
+            f = Frame(grid, bd=2, relief='solid', height =300, width = 300)
+            ligne.append(f)
+        main_grid.append(ligne)
+
+    
+
+
+    for i in range(3):
+        for j in range(3):
+            main_grid[i][j].grid(row=i, column = j, sticky=N+S+E+W)      
+    
+
+    for x in range(3):
+        Grid.columnconfigure(grid, x, weight=1)
+
+    for y in range(3):
+        Grid.rowconfigure(grid, y, weight=1)    
+    
+    graphical_grid=[]
+    for i in range(9):
+        ligne = []
+        for j in range(9):
+            f = Frame(main_grid[i//3][j//3],bg="white", bd=1, relief='solid', height =100, width = 100)
+            if grille[i][j] != '':
+                ligne.append((f,Label(f,font="Arial 20",justify="center",bg="white",bd=0,text=grille[i][j])))
+            else:
+                e = Entry(f,font="Arial 20",justify="center",bd=0)
+                ligne.append((f,e))
+            ligne[j][1].pack(expand = YES)
+        graphical_grid.append(ligne)
+    for i in range(9):
+        for j in range(9):
+            graphical_grid[i][j][0].grid(row=i%3, column = j%3, sticky=N+S+E+W) 
+
+    for x in range(3):
+        for i in range(3):
+            for j in range(3):
+                Grid.columnconfigure(main_grid[i][j], x, weight=1)
+                Grid.rowconfigure(main_grid[i][j],x,weight=1)
+
+    grid.grid(row=0,column=0,sticky=N+S+E+W)
+    frame_button.grid(row=1,column=0,sticky=N+S+E+W)
+    Grid.rowconfigure(window,0,weight=1)
+    Grid.columnconfigure(window,0,weight=1)
+    
+
 
 def saisir_grille(root,grille):
     def grid_to_list(action):
@@ -112,7 +185,7 @@ def saisir_grille(root,grille):
         if action == 'solve':
             affiche_grille(root,resolve(transform_grid(sudoku_grid)))
         elif action =='play':
-            print("ok")
+            play_grid(root,sudoku_grid)
     window = Toplevel(root)
     window.title("Saisir une grille de Sudoku")
     window.grid()
