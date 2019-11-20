@@ -312,3 +312,22 @@ def main():
 
 if __name__ == '__main__':
 	main()
+
+
+def is_empty(case):
+	rate = 0
+	total = 0
+	for i in case:
+		for j in i:
+			if j  > 200: #Case blanche
+				rate = rate + 1
+			total = total + 1
+	return rate/total < 0.01
+
+
+		
+EX1 = parse_grid('\exemples\exemple_main2.jpg')
+print([[is_empty(EX1[i+9*j]) for i in range(9)] for j in range(9)])
+show_digits(EX1)
+
+

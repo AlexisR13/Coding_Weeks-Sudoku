@@ -352,7 +352,8 @@ def is_empty(case):
 
 
 		
-#EX1 = parse_grid('exemple\exemple1.jpg')
-#print([[is_empty(EX1[i+9*j]) for i in range(9)] for j in range(9)])
-#show_digits(EX1)
+EX1 = parse_grid('\..\..\exemples\exemple_main2.jpg')
+print([[is_empty(EX1[i+9*j]) for i in range(9)] for j in range(9)])
+show_digits(EX1)
+
 
