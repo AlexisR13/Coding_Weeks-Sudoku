@@ -16,8 +16,11 @@ Dans le cadre de ce projet de coding weeks, nous avons pour but de réaliser un 
     - résoudre la grille de sudoku et afficher celle-ci
     
 Pour effectuer cette tâche, nous allons diviser le travail en trois parties : 
+    
     1) L'interface graphique
+    
     2) La résolution
+    
     3) La reconnaissance
     
 1) Cette partie (interface graphique) consiste en l'interface utilisateur du produit. Elle devra permettre à l'utilisateur de donner une photo de grille au programme pour que 
