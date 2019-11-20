@@ -1,11 +1,12 @@
 from random import *
 from Resolution.résolution_sous_optimal import *
+from resolution_optimisée import *
+import numpy as np
 def grid_full():
     grid = np.zeros((9,9))
     
     count = 0
     while count < 15:
-        print("ok")
         k = randint(1,9)
         x = randint(0,8)
         y = randint(0,8)
@@ -13,7 +14,8 @@ def grid_full():
             
             grid[x][y] = k
             count += 1
-    grid = resolve(grid)
+    print(grid = int_to_string(np.array(grid)))
+    grid = string_to_int(resolution_optimisée.resolution_hazardeuse(grid))
     return grid
 
 
@@ -29,7 +31,7 @@ def empty_count(grid):
 def unicité(grid_ref,grid):
     for i in range(5):
         print("try")
-        if False in (grid_ref == resolve_random(grid)):
+        if False in (grid_ref == string_to_int(resolution_optimisée.resolution_hazardeuse(int_to_string(grid)))):
             return False
     return True
 
