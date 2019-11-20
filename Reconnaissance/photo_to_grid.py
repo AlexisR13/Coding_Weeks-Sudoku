@@ -1,6 +1,6 @@
 import tensorflow as tf
 import cv2
-from Thomas.transform_photo_grid import *
+from Reconnaissance.transform_photo_grid import *
 
 def analyse(array):
     for i in range(len(array)):
@@ -12,7 +12,7 @@ def analyse(array):
 
 
 def photo_to_grid(path):
-    model = tf.keras.models.load_model('Thomas/mnistCNN.h5')
+    model = tf.keras.models.load_model('Reconnaissance/mnistCNN.h5')
     digit = parse_grid(path)
     grid = np.full((9,9), "")
 
