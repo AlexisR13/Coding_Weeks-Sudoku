@@ -1,3 +1,5 @@
+import random as rd
+
 #resolution prend ici une grille defini avec des zéros (et non des '') et des entiers (et non des listes)
 
 def resolution(grille):
@@ -14,6 +16,30 @@ def resolution(grille):
             grille2[i_min][j_min] = [k]          #hypothèse sur la valeur de la case choisie précédemment
             resolution(grille2)
 
+
+def resolution_hazardeuse(grille):
+    """resolution avec une part de hazard dans le choix de l'hypothèse"""
+    int_to_string(grille)
+    resolution_naive(grille)            
+    if est_complete(grille)==True and verification_grille(grille)==True:
+        return(str_to_int(grille))
+        affichage(grille)
+    else:
+        (i_min,j_min)=moins_possibilites(grille)       
+        for k in melange(grille[i_min][j_min]):
+            grille2 = copie(grille)
+            grille2[i_min][j_min] = [k]          
+            resolution_hazardeuse(grille2)
+
+def melange(liste):
+    liste_copie=liste.copy()
+    liste_melange=[]
+    for i in range(len(liste)):
+        nb_aleatoire = rd.randint(0,len(liste_copie)-1)
+        element = liste_copie[nb_aleatoire]
+        liste_copie.remove(element)
+        liste_melange.append(element)
+    return(liste_melange)
 
 
 ####### fonctions utiles à la résolution #######
@@ -342,4 +368,4 @@ sudoku4=[['' ,'' ,[7],'' ,'' ,'' ,[3],'' ,[2]],
 
 #resolution_naive(sudoku)
 #resolution(sudoku2)
-#resolution(sudoku3)
+resolution_hazardeuse(sudoku3)
