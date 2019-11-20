@@ -11,6 +11,7 @@ ________________________________________________________________________________
 
 
 Dans le cadre de ce projet de coding weeks, nous avons pour but de réaliser un solveur de grilles de Sudoku. Ce solveur devra :
+    
     - être capable de reconstruire numériquement une grille de sudoku à partir d'une photographie
     - résoudre la grille de sudoku et afficher celle-ci
     
