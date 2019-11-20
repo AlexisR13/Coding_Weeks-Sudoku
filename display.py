@@ -4,6 +4,8 @@ from functools import partial
 from Reconnaissance.photo_to_grid import *
 from résolution_sous_optimal import *
 from resolution_optimisée import *
+from generation import *
+import numpy as np
 
 
 def main_window():
@@ -14,7 +16,41 @@ def main_window():
     button_frame=Frame(root)
     info_label = Label(root, text="Choisissez comment saisir la grille:")
     scan_button = Button(button_frame,text="Scanner une grille",command=partial(open_scan,root))
+    def transform(grille):
+        print(grille)
+        for i in range(9):
+            for j in range(9):
+                
+                if grille[i][j] == 0.0:
+                    grille[i][j] = ''
+                else: grille[i][j] = int(grille[i][j])
+        return grille
     def generate():
+        popup = Tk()
+        def destroy():
+            diff = choix_difficulte.curselection()
+            diff = choix_difficulte.get(diff)
+            print(diff)
+            saisir_grille(root,transform(generation(diff).tolist()))
+            popup.destroy()
+            
+
+        popup.wm_title("Générer grille")
+        label = Label(popup, text="Veuillez séléctionner la difficulté de la grille")
+        label.pack(side="top", fill="x", pady=10)
+        radio_frame = Frame(popup)
+
+        choix_difficulte = Listbox(radio_frame,selectmode=SINGLE,width=50)
+        choix_difficulte.insert(1,"Facile")
+        choix_difficulte.insert(2,"Moyen")
+        choix_difficulte.insert(3,"Difficile")
+        choix_difficulte.selection_set(first=0)
+        choix_difficulte.grid(sticky=N+S+E+W)
+
+        radio_frame.pack(fill="x",pady=10)
+        B1 = Button(popup, text="Générer", command = destroy)
+        B1.pack(side="bottom")
+        popup.mainloop()
         return None
     game_grid = []
     for i in range(9):
@@ -26,9 +62,9 @@ def main_window():
     
     quit_button = Button(root,text="Quitter",command=quit)
     info_label.grid(row=0,column=0)
-    saisir_button.grid(row=0,column=0,ipady=15,padx =30)
-    scan_button.grid(row=0,column=1,ipady=15,pady=30,padx=30)
-    generer_button.grid(row=0,column=2,ipady=15,pady=30)
+    saisir_button.grid(row=0,column=0,ipady=15,padx=15)
+    scan_button.grid(row=0,column=1,ipady=15,pady=30,padx=15)
+    generer_button.grid(row=0,column=2,ipady=15,pady=30,padx=15)
     button_frame.grid(row=1,column=0)
     quit_button.grid(row=2,column=0)
     Grid.rowconfigure(root,0,weight=1)

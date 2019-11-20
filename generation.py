@@ -64,9 +64,9 @@ def remove_value(grid,v):
 #print(grid2)
 
 def generation(diff):
-    if diff == "facile":
+    if diff == "Facile":
         v = 30
-    elif diff == "moyen":
+    elif diff == "Moyen":
         v = 25
     else:
         v = 20
@@ -79,7 +79,7 @@ def generation(diff):
     return grid
 
 
-print(generation("di"))
+#print(generation("di"))
 
 
 
