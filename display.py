@@ -2,7 +2,7 @@ from tkinter import filedialog
 from tkinter import *
 from functools import partial
 from Reconnaissance.photo_to_grid import *
-from résolution_sous_optimal import *
+from Resolution.résolution_sous_optimal import *
 
 
 
