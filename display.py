@@ -36,7 +36,22 @@ def open_scan(root):
     #jpg
     filename = filedialog.askopenfilename(initialdir = "/images",title = "Selectionnez une image",filetypes = (("jpeg files","*.jpg"),("all files","*.*")))
     grid = photo_to_grid(filename)
-    saisir_grille(root,grid)
+    popupmsg(root,grid)
+
+def popupmsg(root,grid):
+    """
+    Ouvre un popup pour dire à l'utilisateur de vérifier la grille scannée
+    """
+    popup = Tk()
+    def destroy():
+        popup.destroy()
+        saisir_grille(root,grid)
+    popup.wm_title("Verifier la grille")
+    label = Label(popup, text="Veuillez verifier que la grille a bien été remplie et corriger les erreurs")
+    label.pack(side="top", fill="x", pady=10)
+    B1 = Button(popup, text="Okay", command = destroy)
+    B1.pack()
+    popup.mainloop()
 
 def affiche_grille(root,grille):
     grid = Toplevel(root)
@@ -85,7 +100,7 @@ def affiche_grille(root,grille):
     grid.grid()
 
 def saisir_grille(root,grille):
-    def grid_to_list():
+    def grid_to_list(action):
         sudoku_grid = []
         for i in range(9):
             sudoku_grid.append([])
@@ -94,12 +109,22 @@ def saisir_grille(root,grille):
                 if value=='':
                     sudoku_grid[i].append('')
                 else: sudoku_grid[i].append(int(value))
-        affiche_grille(root,resolve(transform_grid(sudoku_grid)))
+        if action == 'solve':
+            affiche_grille(root,resolve(transform_grid(sudoku_grid)))
+        elif action =='play':
+            print("ok")
     window = Toplevel(root)
     window.title("Saisir une grille de Sudoku")
     window.grid()
     grid = Frame(window)
-    solve_button = Button(window,text="Résoudre",command=grid_to_list)
+    frame_button = Frame(window)
+    play_button = Button(frame_button,text="Jouer",command=partial(grid_to_list,'play'))
+    solve_button = Button(frame_button,text="Résoudre",command=partial(grid_to_list,'solve'))
+    play_button.grid(row=0,column=0,sticky=N+S+E+W)
+    solve_button.grid(row=0,column=1,sticky=N+S+E+W)
+    Grid.columnconfigure(frame_button,0,weight=1)
+    Grid.columnconfigure(frame_button,1,weight=1)
+    Grid.rowconfigure(frame_button,0,weight=1)
     main_grid = []
     for i in range(3):
         ligne = []
@@ -143,7 +168,7 @@ def saisir_grille(root,grille):
                 Grid.rowconfigure(main_grid[i][j],x,weight=1)
 
     grid.grid(row=0,column=0,sticky=N+S+E+W)
-    solve_button.grid(row=1,column=0,sticky=N+S+E+W)
+    frame_button.grid(row=1,column=0,sticky=N+S+E+W)
     Grid.rowconfigure(window,0,weight=1)
     Grid.columnconfigure(window,0,weight=1)
     
