@@ -1,7 +1,8 @@
 from tkinter import filedialog
 from tkinter import *
 from functools import partial
-from Thomas.photo_to_grid import *
+from Reconnaissance.photo_to_grid import *
+from résolution_sous_optimal import *
 
 
 
@@ -93,7 +94,7 @@ def saisir_grille(root,grille):
                 if value=='':
                     sudoku_grid[i].append('')
                 else: sudoku_grid[i].append(int(value))
-        print(sudoku_grid)
+        affiche_grille(root,resolve(transform_grid(sudoku_grid)))
     window = Toplevel(root)
     window.title("Saisir une grille de Sudoku")
     window.grid()
