@@ -1,9 +1,12 @@
+#resolution prend ici une grille defini avec des zéros (et non des '') et des entiers (et non des listes)
+
 def resolution(grille):
     """fonction récursive qui résout essaie de résoudre intelligemment un sudoku, lorsque ceci est impossible,
     elle fait des hypothèses sur la valeur d'une case, obtient ainsi une grille plus simple, et recommence"""
+    int_to_string(grille)
     resolution_naive(grille)            
     if est_complete(grille)==True and verification_grille(grille)==True:
-        affichage(grille)
+        return(str_to_int(grille))
     else:
         (i_min,j_min)=moins_possibilites(grille)        #choix optimisé de la case sur laquelle faire une hypothèse
         for k in grille[i_min][j_min]:
@@ -264,6 +267,38 @@ def affichage(grille):
     print(A)
     
 
+
+
+
+######## transformation format des grilles #######
+def int_to_string(grille_int):
+    grille_str =[]
+    for i in range(len(grille_int)):
+        a=[]
+        for j in range(len(grille_int)):
+            if grille_int[i][j] !=0:
+                a.append([grille_int[i][j]])
+            else:
+                a.append('')
+        grille_str.append(a)
+    return(grille_str)
+
+def string_to_int(grille_str):
+    grille_int=[]
+    for i in range(len(grille_str)):
+        a=[]
+        for j in range(len(grille_str)):
+            if grille_str[i][j] == '':
+                a.append(0)
+            else:
+                a.append(grille_str[i][j][0])
+        grille_int.append(a)
+    return(grille_int)
+
+
+
+
+
 sudoku=[['' ,[6],'' ,[8],[9],[3],'' ,[4],'' ],          #exemple 7
         [[2],'' ,'' ,'' ,'' ,'' ,'' ,'' ,[6]],
         ['' ,'' ,[3],[2],'' ,[1],[7],'' ,'' ],
@@ -307,4 +342,4 @@ sudoku4=[['' ,'' ,[7],'' ,'' ,'' ,[3],'' ,[2]],
 
 #resolution_naive(sudoku)
 #resolution(sudoku2)
-resolution(sudoku3)
+#resolution(sudoku3)
