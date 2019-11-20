@@ -71,7 +71,8 @@ def transform_grid(grid):
         for j in range(len(grid)):
             if grid[i][j]=='':
                 grid[i][j]=0
-            else: grid[i][j] = grid[i][j][0]
+            elif type(grid[i][j])==list: grid[i][j] = grid[i][j][0]
+            
     return grid
 
 
