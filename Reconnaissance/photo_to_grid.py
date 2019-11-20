@@ -12,7 +12,7 @@ def analyse(array):
 
 
 def photo_to_grid(path):
-    model = tf.keras.models.load_model('Reconnaissance/mnistCNN.h5')
+    model = tf.keras.models.load_model('Reconnaissance/model.h5')
     digit = parse_grid(path)
     grid = np.full((9,9), "")
 
@@ -21,7 +21,7 @@ def photo_to_grid(path):
         if is_empty(digit[i]):
             grid[i//9][i%9] = ""
         else:
-            arr = (model.predict(np.float64(digit[i].reshape(1,28,28,1))))
+            arr = (model.predict(np.float64(digit[i].reshape(1,28,28))))
             arr = analyse(arr[0])
             
             grid[i//9][i%9] =  str(arr)
