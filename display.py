@@ -2,10 +2,15 @@ from tkinter import filedialog
 from tkinter import *
 from functools import partial
 from Reconnaissance.photo_to_grid import *
+<<<<<<< HEAD
 from résolution_sous_optimal import *
 from resolution_optimisée import *
 from generation import *
 import numpy as np
+=======
+from Resolution.résolution_sous_optimal import *
+
+>>>>>>> Thomas
 
 
 def main_window():

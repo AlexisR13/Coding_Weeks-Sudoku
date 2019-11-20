@@ -23,7 +23,9 @@ def photo_to_grid(path):
         else:
             arr = (model.predict(np.float64(digit[i].reshape(1,28,28))))
             arr = analyse(arr[0])
-            
+            print(arr)
+            if arr == 0:
+                arr =1
             grid[i//9][i%9] =  str(arr)
 
     return grid
