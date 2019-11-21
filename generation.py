@@ -1,22 +1,24 @@
 from random import *
-from Resolution.résolution_sous_optimal import *
 from resolution_optimisée import *
+from Resolution.résolution_sous_optimal import *
 import numpy as np
 def grid_full():
     grid = np.zeros((9,9))
-    
     count = 0
-    while count < 15:
+    while count < 21:
         k = randint(1,9)
         x = randint(0,8)
         y = randint(0,8)
-        if ligne(grid,x,k) and colonne(grid,y,k) and carré(grid,x,y,k):
-            
+        if ligne(grid,x,k) and colonne(grid,y,k) and carré(grid,x,y,k) and grid[x][y]==0:            
             grid[x][y] = k
             count += 1
-    print(grid = int_to_string(np.array(grid)))
-    grid = string_to_int(resolution_optimisée.resolution_hazardeuse(grid))
-    return grid
+    
+    grid = int_to_string(grid)
+    affichage(grid)
+    print(grid)
+    grid = resolution_hazardeuse(grid)
+    print(grid)
+    return string_to_int(grid)
 
 
 def empty_count(grid):
@@ -31,7 +33,7 @@ def empty_count(grid):
 def unicité(grid_ref,grid):
     for i in range(5):
         print("try")
-        if False in (grid_ref == string_to_int(resolution_optimisée.resolution_hazardeuse(int_to_string(grid)))):
+        if False in (grid_ref == string_to_int(resolution_hazardeuse(int_to_string(grid)))):
             return False
     return True
 
@@ -76,13 +78,11 @@ def generation(diff):
     s = False
     while not s:
         grid = grid_full()
+        print('ok')
         s,grid = remove_value(grid,v)
 
     return grid
 
 
 print(generation("di"))
-
-
-
 
