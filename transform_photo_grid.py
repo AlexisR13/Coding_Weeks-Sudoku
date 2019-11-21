@@ -327,17 +327,10 @@ def parse_grid(path):
 	digits = get_digits(cropped, squares, 28)
 	pure_white(digits)
 	pure_black(digits)
-	rewrite(digits)
+	#rewrite(digits)
 	pure_white(digits)
 	pure_black(digits)
 	return digits
-
-
-def main():
-	parse_grid('exemple\exemple1.jpg')
-
-if __name__ == '__main__':
-	main()
 
 
 def is_empty(case):
@@ -352,7 +345,7 @@ def is_empty(case):
 
 
 		
-EX1 = parse_grid('exemple\exemple1.jpg')
-#print([[is_empty(EX1[i+9*j]) for i in range(9)] for j in range(9)])
+EX1 = parse_grid('exemples\exemple_main2.jpg')
+print([[is_empty(EX1[i+9*j]) for i in range(9)] for j in range(9)])
 show_digits(EX1)
 

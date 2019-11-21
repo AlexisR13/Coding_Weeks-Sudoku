@@ -24,7 +24,8 @@ def photo_to_grid(path,model):
         print("2222222222")
     
     grid = np.full((9,9), "")
-
+    pure_black(digit)
+    pure_white(digit)
 
     for i in range(len(digit)):
         if is_empty(digit[i]):
