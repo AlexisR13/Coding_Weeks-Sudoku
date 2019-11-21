@@ -83,7 +83,6 @@ def main_window():
 
 def open_scan(root,model):
     #jpg
-    print(str(model), "1")
     filename = filedialog.askopenfilename(initialdir = "/images",title = "Selectionnez une image",filetypes = (("jpeg files","*.jpg"),("all files","*.*")))
     grid = photo_to_grid(filename,model)
     popupmsg(root,grid)
@@ -105,7 +104,8 @@ def popupmsg(root,grid):
 
 def choix_model(root):
     popup = Tk()
-    choix = StringVar()
+    choix = StringVar(popup)
+    choix.set('main')
     main = Radiobutton(popup, text='main', value='main', variable=choix)
     ordi = Radiobutton(popup, text='ordinateur', value='ordi', variable=choix)
     
@@ -115,13 +115,15 @@ def choix_model(root):
     def destroy():
         popup.destroy()
         open_scan(root,choix.get())
+        
+        
+        
     popup.wm_title("Choix du modèle")
     label = Label(popup, text="La grille de sudoku est-elle écrite à la main ou par ordinateur ?")
     label.grid(row = 0, column = 1)
     B1 = Button(popup, text="Valider", command = destroy)
     B1.grid(row = 2, column = 1)
     popup.mainloop()
-
 
 def affiche_grille(root,grille):
     grid = Toplevel(root)
