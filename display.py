@@ -35,7 +35,6 @@ def main_window():
         def destroy():
             diff = choix_difficulte.curselection()
             diff = choix_difficulte.get(diff)
-            print(diff)
             saisir_grille(root,transform(generation(diff).tolist()))
             popup.destroy()
             
