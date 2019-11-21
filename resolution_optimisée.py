@@ -292,7 +292,7 @@ def affichage(grille):
 
 
 
-######### intéraction avec le joueur #########
+########## intéraction avec le joueur ##########
 ## donner un indice
 def unique_ligne_indice(grille,inconnues,i): 
     cases=[]        
@@ -376,7 +376,7 @@ def int_to_string(grille_int):
         a=[]
         for j in range(len(grille_int)):
             if grille_int[i][j] !=0:
-                a.append([grille_int[i][j]])
+                a.append([int(grille_int[i][j])])
             else:
                 a.append('')
         grille_str.append(a)
