@@ -1,24 +1,19 @@
 from random import *
-from resolution_optimisée import *
 from Resolution.résolution_sous_optimal import *
 import numpy as np
 def grid_full():
     grid = np.zeros((9,9))
     count = 0
-    while count < 21:
+    while count < 15:
         k = randint(1,9)
         x = randint(0,8)
         y = randint(0,8)
         if ligne(grid,x,k) and colonne(grid,y,k) and carré(grid,x,y,k) and grid[x][y]==0:            
             grid[x][y] = k
             count += 1
-    
-    grid = int_to_string(grid)
-    affichage(grid)
-    print(grid)
-    grid = resolution_hazardeuse(grid)
-    print(grid)
-    return string_to_int(grid)
+    grid = resolve_random(grid)
+  
+    return grid
 
 
 def empty_count(grid):
@@ -32,8 +27,8 @@ def empty_count(grid):
 
 def unicité(grid_ref,grid):
     for i in range(5):
-        print("try")
-        if False in (grid_ref == string_to_int(resolution_hazardeuse(int_to_string(grid)))):
+
+        if False in (grid_ref == resolve_random(grid)):
             return False
     return True
 
@@ -54,7 +49,6 @@ def remove_value(grid,v):
         if grid2[x][y] != 0:
                      
             grid2[x][y] = 0
-            #not (False in (grid == resolve_random(grid2)))
             if unicité(grid,grid2):
                 count -= 1
             else:
@@ -69,11 +63,11 @@ def remove_value(grid,v):
 
 def generation(diff):
     if diff == "Facile":
-        v = 30
+        v = 32
     elif diff == "Moyen":
-        v = 25
+        v = 27
     else:
-        v = 20
+        v = 23
 
     s = False
     while not s:
@@ -82,7 +76,4 @@ def generation(diff):
         s,grid = remove_value(grid,v)
 
     return grid
-
-
-#print(generation("di"))
 

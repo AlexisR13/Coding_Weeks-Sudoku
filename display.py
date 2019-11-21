@@ -2,15 +2,12 @@ from tkinter import filedialog
 from tkinter import *
 from functools import partial
 from Reconnaissance.photo_to_grid import *
-<<<<<<< HEAD
 from résolution_sous_optimal import *
 from resolution_optimisée import *
 from generation import *
 import numpy as np
-=======
 from Resolution.résolution_sous_optimal import *
 
->>>>>>> Thomas
 
 
 def main_window():
@@ -20,7 +17,7 @@ def main_window():
     root.geometry('380x200')
     button_frame=Frame(root)
     info_label = Label(root, text="Choisissez comment saisir la grille:")
-    scan_button = Button(button_frame,text="Scanner une grille",command=partial(open_scan,root))
+    scan_button = Button(button_frame,text="Scanner une grille",command=partial(choix_model,root))
     def transform(grille):
         print(grille)
         for i in range(9):
@@ -78,10 +75,15 @@ def main_window():
     Grid.columnconfigure(button_frame,2,weight=1)
     Grid.columnconfigure(button_frame,1,weight=1)
     root.mainloop()
-def open_scan(root):
+
+
+
+
+
+def open_scan(root,model):
     #jpg
     filename = filedialog.askopenfilename(initialdir = "/images",title = "Selectionnez une image",filetypes = (("jpeg files","*.jpg"),("all files","*.*")))
-    grid = photo_to_grid(filename)
+    grid = photo_to_grid(filename,model)
     popupmsg(root,grid)
 
 def popupmsg(root,grid):
@@ -97,6 +99,29 @@ def popupmsg(root,grid):
     label.pack(side="top", fill="x", pady=10)
     B1 = Button(popup, text="Okay", command = destroy)
     B1.pack()
+    popup.mainloop()
+
+def choix_model(root):
+    popup = Tk()
+    choix = StringVar(popup)
+    choix.set('main')
+    main = Radiobutton(popup, text='main', value='main', variable=choix)
+    ordi = Radiobutton(popup, text='ordinateur', value='ordi', variable=choix)
+    
+    main.grid(row=1, column=0, sticky='W') 
+    ordi.grid(row=1, column=2, sticky='W')
+
+    def destroy():
+        popup.destroy()
+        open_scan(root,choix.get())
+        
+        
+        
+    popup.wm_title("Choix du modèle")
+    label = Label(popup, text="La grille de sudoku est-elle écrite à la main ou par ordinateur ?")
+    label.grid(row = 0, column = 1)
+    B1 = Button(popup, text="Valider", command = destroy)
+    B1.grid(row = 2, column = 1)
     popup.mainloop()
 
 def affiche_grille(root,grille):
@@ -402,5 +427,4 @@ def saisir_grille(root,grille):
     Grid.rowconfigure(window,0,weight=1)
     Grid.columnconfigure(window,0,weight=1)
     
-
 main_window()

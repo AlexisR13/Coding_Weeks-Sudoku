@@ -3,9 +3,6 @@ import cv2
 from grid_extractor import *
 from tensorflow.examples.tutorials.mnist import input_data
 
-img = cv2.imread('exemple 1.jpg', cv2.IMREAD_COLOR)
-
-digit = parse_grid("exemple 1.jpg")
 
 import pickle
 
