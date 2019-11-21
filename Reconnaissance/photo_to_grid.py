@@ -8,12 +8,21 @@ def analyse(array):
             return i
 
 
-
-
-
-def photo_to_grid(path):
-    model = tf.keras.models.load_model('Reconnaissance/model.h5')
+def photo_to_grid(path,model):
+    
     digit = parse_grid(path)
+    
+    
+    if model == 'ordi':    
+        model = tf.keras.models.load_model('Reconnaissance/model.h5')
+        digit_reshape  = np.float64(np.array([x.reshape(1,28,28) for x in digit]))  
+        print("11111111")
+
+    else:
+        model = tf.keras.models.load_model('Reconnaissance/mnistCNN.h5')
+        digit_reshape  = np.float64(np.array([x.reshape(1,28,28,1) for x in digit]))
+        print("2222222222")
+    
     grid = np.full((9,9), "")
 
 
@@ -21,9 +30,8 @@ def photo_to_grid(path):
         if is_empty(digit[i]):
             grid[i//9][i%9] = ""
         else:
-            arr = (model.predict(np.float64(digit[i].reshape(1,28,28))))
+            arr = (model.predict(digit_reshape[i]))
             arr = analyse(arr[0])
-            print(arr)
             if arr == 0:
                 arr =1
             grid[i//9][i%9] =  str(arr)

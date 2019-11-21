@@ -333,12 +333,6 @@ def parse_grid(path):
 	return digits
 
 
-def main():
-	parse_grid('exemple\exemple1.jpg')
-
-if __name__ == '__main__':
-	main()
-
 
 def is_empty(case):
 	rate = 0
@@ -350,9 +344,4 @@ def is_empty(case):
 			total = total + 1
 	return rate/total < 0.01
 
-
-		
-#EX1 = parse_grid('exemple\exemple1.jpg')
-#print([[is_empty(EX1[i+9*j]) for i in range(9)] for j in range(9)])
-#show_digits(EX1)
 

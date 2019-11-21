@@ -176,7 +176,7 @@ def carre(grille,i,j):
     return(modif_3)
 
 
-###sous fonctions utiles à la focntion reduit_nb_inconnues_bis
+###sous fonctions utiles à la focntion a
 def unique_ligne(grille,inconnues,i): 
     """fonction qui regarde s'il existe des numéros n'ayant qu'une unique place dans la ligne i et complète cette place par la valeur si c'est le cas"""
     cases=[]        #liste des inconnues qui sont dans la ligne i
