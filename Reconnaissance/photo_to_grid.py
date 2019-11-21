@@ -15,7 +15,8 @@ def photo_to_grid(path):
     model = tf.keras.models.load_model('Reconnaissance/mnistCNN.h5')
     digit = parse_grid(path)
     grid = np.full((9,9), "")
-
+    pure_black(digit)
+    pure_white(digit)
 
     for i in range(len(digit)):
         if is_empty(digit[i]):
