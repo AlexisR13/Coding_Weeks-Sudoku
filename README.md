@@ -37,4 +37,14 @@ programmes cités plus-haut. Le but de cette partie est donc de construire une g
 
 ____________________________________________________________________________________________________________________________________________________________________________________
 
-Pour utiliser le programme, exécuter le fichier display.py.
+Pour utiliser le programme, 
+
+- Exécutez le fichier display.py.
+
+- Sélectionner "Saisir la grille" si vous voulez la rentrer manuellement, "Scnanner la grille" si vous voulez résoudre le sudoku à partir d'une photo, "Générer la grille" si vous
+voulez générer une grille. Si vous avez chosi de scanner une grille, sélectionnez si elle est écrite de facon manuelle ou avec un ordinateur puis sélectionnez la.
+
+- Vérifiez la qualité de la grille.
+
+- Choisissez entre "Jouer" pour résoudre vous même la grille ou bien "Résoudre" pour compléter la grille.
+
