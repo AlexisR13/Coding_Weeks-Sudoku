@@ -1,14 +1,12 @@
 import random as rd
 
-#resolution prend ici une grille defini avec des zéros (et non des '') et des entiers (et non des listes)
 
 def resolution(grille):
     """fonction récursive qui résout essaie de résoudre intelligemment un sudoku, lorsque ceci est impossible,
     elle fait des hypothèses sur la valeur d'une case, obtient ainsi une grille plus simple, et recommence"""
-    int_to_string(grille)
     resolution_naive(grille)            
     if est_complete(grille)==True and verification_grille(grille)==True:
-        return(str_to_int(grille))
+        return(grille)
     else:
         (i_min,j_min)=moins_possibilites(grille)        #choix optimisé de la case sur laquelle faire une hypothèse
         for k in grille[i_min][j_min]:
@@ -19,7 +17,6 @@ def resolution(grille):
 
 def resolution_hazardeuse(grille):
     """resolution avec une part de hazard dans le choix de l'hypothèse"""
-    
     resolution_naive(grille)            
     if est_complete(grille)==True and verification_grille(grille)==True:
         return(grille)
@@ -132,12 +129,12 @@ def mise_a_jour_grille(grille,inconnues):
     while modification==True:
         k=0
         for (i,j) in inconnues:
-            if mise_a_jour(grille,i,j) == True:
+            if mise_a_jour_case(grille,i,j) == True:
                 k+=1
         if k==0:
             modification=False
 
-def mise_a_jour(grille,i,j): 
+def mise_a_jour_case(grille,i,j): 
     """permet de mettre à jour à l'état des connaissances la case (i,j) (quelles sont les valeurs encore possibles pour la case (i,j))"""
     modif_1 = colonne(grille,i,j)        
     modif_2 = ligne(grille,i,j)
@@ -179,7 +176,7 @@ def carre(grille,i,j):
     return(modif_3)
 
 
-###sous fonctions utiles à la focntion reduit_nb_inconnues_bis
+###sous fonctions utiles à la focntion a
 def unique_ligne(grille,inconnues,i): 
     """fonction qui regarde s'il existe des numéros n'ayant qu'une unique place dans la ligne i et complète cette place par la valeur si c'est le cas"""
     cases=[]        #liste des inconnues qui sont dans la ligne i
@@ -295,37 +292,110 @@ def affichage(grille):
 
 
 
+########## intéraction avec le joueur ##########
+## donner un indice
+def unique_ligne_indice(grille,inconnues,i): 
+    cases=[]        
+    nb_presences={1:0 ,2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0}          
+    for j in range(len(grille)):
+        if len(grille[i][j])>1:
+            cases.append((i,j))
+            for k in grille[i][j]:
+                nb_presences[k]+=1
+    return(analyse_unicite_indice(grille,inconnues,nb_presences,cases))
+
+def unique_colonne_indice(grille,inconnues,j):                    
+    cases=[]       
+    nb_presences={1:0 ,2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0}          
+    for i in range(len(grille)):
+        if len(grille[i][j])>1:
+            cases.append((i,j))
+            for k in grille[i][j]:
+                nb_presences[k]+=1
+    return(analyse_unicite_indice(grille,inconnues,nb_presences,cases))
+
+def unique_carre_indice(grille,inconnues,n): 
+    cases=[]        
+    nb_presences={1:0 ,2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0}          
+    for k in range(3*((n-1)//3),3*((n-1)//3+1)):  
+        for l in range(3*((n-1)%3),3*((n-1)%3+1)):
+            if len(grille[k][l])>1:  
+                cases.append((k,l))
+                for p in grille[k][l]:
+                    nb_presences[p]+=1
+    return(analyse_unicite_indice(grille,inconnues,nb_presences,cases))
+
+def analyse_unicite_indice(grille,inconnues,nb_presences,cases):
+    for k in range(1,len(nb_presences)+1): 
+        if nb_presences[k]==1:                
+            for (i,j) in cases: 
+                if k in grille[i][j]:
+                    grille[i][j] = [k]        
+                    inconnues.remove((i,j))
+                    return((i,j),k)
+
+
+def donner_indice(grille):
+    """renvoi les coordonnées d'une case facile à modifer ET la valeur de la case, ou False si aucune case ne serait remplie par resolution_naive"""
+    complete_grille(grille)                 
+    inconnues = coordonnees_inconnues(grille)           
+    no_action=True
+    modification=True
+    while modification==True:
+        k=0
+        for (i,j) in inconnues:
+            if mise_a_jour_case(grille,i,j) == True:
+                k+=1
+                if len(grille[i][j])==1:
+                    return((i,j),grille[i][j][0])       
+        if k==0:
+            modification=False
+    
+    for k in range(len(grille)):
+        unique_colonne_indice(grille,inconnues,k)
+        unique_ligne_indice(grille,inconnues,k)
+        unique_carre_indice(grille,inconnues,k+1)
+    
+    if no_action==True:
+        return(False)
+
+
+## énumérer les posibilités d'une case
+def donner_possibilités_case(grille,i,j):
+    """renvoie les possibilités restantes de la case (i,j) sous forme de liste"""
+    complete_grille(grille)
+    mise_a_jour_case(grille,i,j)
+    return(grille[i][j])
+
+
+
 ######## transformation format des grilles #######
 def int_to_string(grille_int):
-    grid = []
-    for i in range(9):
-        ligne = []
-        for j in range(9):
-            k = grille_int[i][j]
-            if k == 0:
-                ligne.append("")
+    grille_str =[]
+    for i in range(len(grille_int)):
+        a=[]
+        for j in range(len(grille_int)):
+            if grille_int[i][j] !=0:
+                a.append([int(grille_int[i][j])])
             else:
-                ligne.append([k])
-        grid.append(ligne)
-    return(grid)
+                a.append('')
+        grille_str.append(a)
+    return(grille_str)
 
 def string_to_int(grille_str):
-    grid = []
-    for i in range(9):
-        ligne = []
-        for j in range(9):
-            k = grille_str[i][j]
-            if k == "":
-                ligne.append(0)
+    grille_int=[]
+    for i in range(len(grille_str)):
+        a=[]
+        for j in range(len(grille_str)):
+            if grille_str[i][j] == '':
+                a.append(0)
             else:
-                ligne.append(k[0])
-        grid.append(ligne)
-    return(grid)
+                a.append(grille_str[i][j][0])
+        grille_int.append(a)
+    return(grille_int)
 
 
-
-
-
+####### exmples de grilles #######
 sudoku=[['' ,[6],'' ,[8],[9],[3],'' ,[4],'' ],          #exemple 7
         [[2],'' ,'' ,'' ,'' ,'' ,'' ,'' ,[6]],
         ['' ,'' ,[3],[2],'' ,[1],[7],'' ,'' ],
@@ -345,7 +415,6 @@ sudoku2=[['','' ,'' ,'' ,[3],'' ,'' ,'' ,'' ],          #exemple 125
         [[1],[4],'' ,'' ,[8],'' ,'' ,[7],[9]],
         ['' ,'' ,[8],[5],'' ,[2],[3],'' ,'' ],
         ['' ,'' ,'' ,'' ,[9],'' ,'' ,'' ,'' ]]
-
 
 sudoku3=[['' ,'' ,'' ,'' ,[8],'' ,'' ,'' ,'' ],         #exemple 185
          [[8],'' ,'' ,'' ,[9],'' ,'' ,'' ,[3]],
@@ -367,11 +436,3 @@ sudoku4=[['' ,'' ,[7],'' ,'' ,'' ,[3],'' ,[2]],
          [[8],'' ,[1],'' ,[6],'' ,'' ,'' ,'' ],
          ['' ,'' ,'' ,[7],'' ,'' ,'' ,[6],[3]]]
 
-#resolution_naive(sudoku)
-#resolution(sudoku2)
-#resolution_hazardeuse(sudoku3)
-
-import numpy as np
-
-ex  = [[9,5,0,0,0,0,0,4,8],[0,0,0,0,1,0,0,0,0],[0,6,3,2,0,4,9,1,0],[0,2,5,0,0,0,7,8,0],[3,8,0,5,0,9,0,2,4],[0,9,4,0,0,0,3,6,0],[0,4,9,7,0,3,8,5,0],[0,0,0,0,6,0,0,0,0],[2,1,0,0,0,0,0,7,3]]
-#print(resolution_hazardeuse([[[9], [5], [1], [6], [3], [7], [2], [4], [8]], [[4], [7], "", [9], [1], [8], "", [3], [6]], [[8], [6], [3], [2], [5], [4], [9], [1], [7]], [[1], [2], [5], [3], [4], [6], [7], [8], [9]], [[3], [8], [6], [5], [7], [9], [1], [2], [4]], [[7], [9], [4], [1], [8], [2], [3], [6], [5]], [[6], [4], "", [7], [2], [3], "", [5], [1]], [[5], [3], [7], [8], [6], [1], [4], [9], [2]], [[2], [1], [8], [4], [9], [5], [6], [7], [3]]]))
