@@ -216,16 +216,75 @@ def play_grid(root,grille,grille_modif):
                 else: sudoku_grid[i].append(int(value))
         check_grid(root,sudoku_grid,grille)
     def suggest():
+        def update_transform_grid():
+            sudoku_grid = []
+            for i in range(9):
+                sudoku_grid.append([])
+                for j in range(9):
+                    if type(graphical_grid[i][j][1]) == Entry:
+                        value = graphical_grid[i][j][1].get()
+                    elif type(graphical_grid[i][j][1])==Label:
+                        value = graphical_grid[i][j][1].cget("text")
+                    if value=='':
+                        sudoku_grid[i].append('')
+                    else: sudoku_grid[i].append([int(value)])
+            return sudoku_grid
+            
 
-        return None
+        indice = donner_indice(update_transform_grid())
+        popup = Tk()
+        def destroy():
+            popup.destroy()
+        if indice==False:
+            popup.wm_title("Sudoku - Indice")
+            label = Label(popup, text="Nous ne pouvons pas vous donner d'indice sur cette grille !")
+        else:
+            popup.wm_title("Sudoku - Indice")
+            label = Label(popup, text="Un " + str(indice[1]) + " va être rempli en case "+ str(indice[0][0] + 1) + ","+str(indice[0][1]+1))
+            i,j = indice[0][0],indice[0][1]
+            graphical_grid[i][j][1].insert(0,indice[1])
+        label.pack(side="top", fill="x", pady=10)
+        B1 = Button(popup, text="Okay", command = destroy)
+        B1.pack()
+        popup.mainloop()
+    def sup():
+        
+        for k in range(9):
+            for l in range(9):
+                if graphical_grid[k][l][1] == window.focus_get():
+                    i,j = k,l
+        pop = Tk()
+        def destroy():
+            
+            current_suppo = graphical_grid[i][j][2].cget("text")
+            suppo = current_suppo + " " + str(entre_supposition.get())
+            print(suppo)
+            graphical_grid[i][j][2].config(text=suppo)
+            pop.destroy()
+        pop.wm_title("Sudoku - Supposition")
+        
+        label = Label(pop, text="Vous pouvez faire une supposition pour la case selectionnée :")
+        label.pack(side="top", fill="x", pady=10)
+        entre_supposition = Entry(pop)
+        entre_supposition.pack()
+        B1 = Button(pop, text="Okay", command = destroy)
+        B1.pack()
+        pop.mainloop()
+        
+        print(i,j)
+
+
     window = Toplevel(root)
     window.title("Sudoku")
+    window.resizable(0,0)
     window.grid()
     grid = Frame(window)
     
     frame_tools = Frame(window)
     suggestion_button=Button(frame_tools,text="Suggestion",command=suggest)
+    supposition_button=Button(frame_tools,text="Insérer une supposition",command=sup)
     suggestion_button.grid(row=0,column=0)
+    supposition_button.grid(row=0,column=1)
     frame_button = Frame(window)
     check_button = Button(frame_button,text="Vérifier",command=grid_to_list)
     check_button.grid(row=0,column=0,sticky=N+S+E+W)
@@ -258,16 +317,19 @@ def play_grid(root,grille,grille_modif):
         ligne = []
         for j in range(9):
             f = Frame(main_grid[i//3][j//3],bg="white", bd=1, relief='solid', height =100, width = 100)
+            supposition = Label(f,font="Arial 10",justify="center",bg="white",bd=0,width=5,text="")
             if grille[i][j] != '':
-                ligne.append((f,Label(f,font="Arial 20",justify="center",bg="white",bd=0,text=grille[i][j])))
+                ligne.append((f,Label(f,font="Arial 20",justify="center",bg="white",bd=0,text=grille[i][j],width=5),supposition))
             elif grille_modif[i][j] != '':
-                e = Entry(f,font="Arial 20",justify="center",bd=0)
+                e = Entry(f,font="Arial 20",justify="center",bd=0,width=5)
                 e.insert(0,grille_modif[i][j])
-                ligne.append((f,e))
+                ligne.append((f,e,supposition))
             else:
-                e = Entry(f,font="Arial 20",justify="center",bd=0)
-                ligne.append((f,e))
-            ligne[j][1].pack(expand = YES)
+                e = Entry(f,font="Arial 20",justify="center",bd=0,width=5)
+                ligne.append((f,e,supposition))
+            ligne[j][2].pack()
+            ligne[j][1].pack(expand=YES)
+            
         graphical_grid.append(ligne)
     for i in range(9):
         for j in range(9):
@@ -281,7 +343,7 @@ def play_grid(root,grille,grille_modif):
     frame_tools.grid(row=0,column=0,sticky=N+S+E+W)
     grid.grid(row=1,column=0,sticky=N+S+E+W)
     frame_button.grid(row=2,column=0,sticky=N+S+E+W)
-    Grid.rowconfigure(window,0,weight=1)
+    Grid.rowconfigure(window,1,weight=1)
     Grid.columnconfigure(window,0,weight=1)
     
 

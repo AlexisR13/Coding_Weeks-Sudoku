@@ -37,4 +37,4 @@ programmes cités plus-haut. Le but de cette partie est donc de construire une g
 
 ____________________________________________________________________________________________________________________________________________________________________________________
 
-Pour utiliser le programme, exécuter display, selectionner la grille
+Pour utiliser le programme, exécuter le fichier display.py.
