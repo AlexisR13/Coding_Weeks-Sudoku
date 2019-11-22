@@ -39,7 +39,7 @@ ________________________________________________________________________________
 
 Pour utiliser le programme, 
 
-- Exécutez le fichier display.py.
+- Exécutez le fichier sudoku.py.
 
 - Sélectionner "Saisir la grille" si vous voulez la rentrer manuellement, "Scanner la grille" si vous voulez résoudre le sudoku à partir d'une photo, "Générer la grille" si vous
 voulez générer une grille. Si vous avez chosi de scanner une grille, sélectionnez si elle est écrite de facon manuscrite ou avec un ordinateur puis sélectionnez la.
