@@ -144,6 +144,20 @@ def affichage(grille):
         A+= '\n'
     print(A)
 
+def is_grille_correcte(grille): #fonction qui permet de vérifier qu'une grille de hidato est correcte
+    liste_cases_pleines,liste_des_cases=liste_cases(grille)
+    i=0
+    if grille[liste_cases_pleines[i][0]][liste_cases_pleines[i][1]]!=1:
+        return False
+    while i<len(liste_cases_pleines)-1:
+        if (liste_cases_pleines[i+1][0]-liste_cases_pleines[i][0])**2>=2:return False
+        if (liste_cases_pleines[i+1][1]-liste_cases_pleines[i][1])**2>=2:return False
+        i+=1
+    if grille[liste_cases_pleines[i][0]][liste_cases_pleines[i][1]]!=len(liste_cases_pleines):return False
+    return True
+    
+        
+
 
 hidato1=[['', 33, 35, '', '', '/', '/', '/'],
         [ '', '', 24, 22, '', '/', '/', '/'],
@@ -178,4 +192,10 @@ hidato4=[['', 27, '/', '', 24],
          [8, '', '', '', ''],
          ['', '', '/', '', 14]]
 
-resolution(hidato1)
+hidato_resolu=[[21,   2,  3,'/',  5],
+               ['/', 20,  1,  4,  6],
+               [15,  16, 19, 18,  7],
+               [14,  12, 17,  8,'/'],
+               [13, '/', 11, 10,  9]]
+#resolution(hidato3)
+print(is_grille_correcte(hidato_resolu))
