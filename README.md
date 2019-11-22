@@ -1,11 +1,16 @@
 Sudoku : photographiez/resolvez
 
-opencv : https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_setup/py_setup_in_windows/py_setup_in_windows.html
-sudoku recognition C++ : http://aishack.in/tutorials/sudoku-grabber-opencv-detection/
-en python : https://medium.com/@neshpatel/solving-sudoku-part-ii-9a7019d196a2
+____________________________________________________________________________________________________________________________________________________________________________________
+Modules utilisés :
 
-CNN : https://medium.com/coinmonks/handwritten-digit-prediction-using-convolutional-neural-networks-in-tensorflow-with-keras-and-live-5ebddf46dc8
-
+numpy
+openCV
+matplotlib
+operator
+random
+tkinter
+functools
+Pypi
 
 ____________________________________________________________________________________________________________________________________________________________________________________
 
@@ -47,4 +52,11 @@ voulez générer une grille. Si vous avez chosi de scanner une grille, sélectio
 - Vérifiez la qualité de la grille.
 
 - Choisissez entre "Jouer" pour résoudre vous même la grille ou bien "Résoudre" pour compléter la grille.
+
+____________________________________________________________________________________________________________________________________________________________________________________
+
+Ressources :
+
+Traitement d'image : https://medium.com/@neshpatel/solving-sudoku-part-ii-9a7019d196a2 / https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_setup/py_setup_in_windows/py_setup_in_windows.html
+Réseau de neuronnes : https://www.tensorflow.org/tutorials/quickstart/beginner
 
