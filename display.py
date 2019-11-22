@@ -3,10 +3,10 @@ from tkinter import *
 from functools import partial
 from Reconnaissance.photo_to_grid import *
 from Resolution.résolution import *
-from resolution_optimisée import *
+from Resolution.resolution_optimisée import *
 from Generation.generation import *
 import numpy as np
-from Resolution.résolution_sous_optimal import *
+
 
 
 

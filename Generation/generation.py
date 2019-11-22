@@ -1,5 +1,5 @@
 from random import *
-from résolution_sous_optimal import *
+from Resolution.résolution import *
 import numpy as np
 from tkinter import *
 

@@ -137,11 +137,6 @@ def transform_grid(grid):
             else: grid[i][j] = grid[i][j]
     return grid
 
-def verif(grid):
-    nb_case_vide = empty_count
-    for i in range(9):
-        for j in range(9):
-            
 
 
 
