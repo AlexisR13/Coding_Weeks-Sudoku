@@ -1,5 +1,6 @@
 from tkinter import *
 from functools import partial
+from resolution_hidato import *
 
 
 def main_window():
@@ -8,15 +9,8 @@ def main_window():
     root.resizable(0,0)
     root.geometry('150x200')
     button_frame=Frame(root)
-    """grid =[]
-    for i in range(8):
-        grid.append([])
-        for j in range(8):
-            grid.append('')"""
     grid = [['','','','','','/','/','/'],['','','','','','/','/','/'],['','','','','','','/','/'],['','','','','','','/','/'],['','','','','','','','/'],['/','/','','','','','','/'],['/','/','/','/','','','',''],['/','/','/','/','/','/','','']]
-    saisir_button = Button(button_frame,text="Saisir la grille",command=partial(saisir_grille,root,grid))
-
-    
+    saisir_button = Button(button_frame,text="Saisir la grille",command=partial(saisir_grille,root,grid))    
     quit_button = Button(root,text="Quitter",command=quit)
     saisir_button.grid(row=0,column=0,sticky=N+S+E+W)
     saisir_button.grid(row=0,column=0,ipady=15,padx=15,sticky=N+S+E+W)
@@ -29,26 +23,6 @@ def main_window():
 
     root.mainloop()
 def saisir_grille(root,grid):
-    """
-    def grid_to_list(action):
-        sudoku_grid = []
-        for i in range(9):
-            sudoku_grid.append([])
-            for j in range(9):
-                value = graphical_grid[i][j][1].get()
-                if value=='':
-                    sudoku_grid[i].append('')
-                else: sudoku_grid[i].append(int(value))
-        if action == 'solve':
-            affiche_grille(root,resolve(transform_grid(sudoku_grid)))
-        elif action =='play':
-            grille_modif = []
-            for i in range(9):
-                grille_modif.append([])
-                for j in range(9):
-                    grille_modif[i].append('')
-            play_grid(root,sudoku_grid,grille_modif)
-    """
     def grid_to_list():
         hidato_grid = []
         for i in range(8):
@@ -56,9 +30,13 @@ def saisir_grille(root,grid):
             for j in range(8):
                 if len(graphical_grid[i][j])==1:
                     hidato_grid[i].append('/')
+                elif graphical_grid[i][j][1].get()=='':
+                    hidato_grid[i].append('')
                 else:
-                    hidato_grid[i].append(int(graphical_grid[i][j][1].get()))
-        affiche_grille(resoudre(hidato_grid),root)
+                    value = graphical_grid[i][j][1].get()
+                    hidato_grid[i].append(int(value))
+        print(hidato_grid)
+        affiche_grille(root,resolution(hidato_grid))
     window = Toplevel(root)
     window.title("Saisir une grille de Hidato")
     window.grid()
@@ -99,14 +77,14 @@ def affiche_grille(root,grid):
     print_grid = Toplevel(root)
     print_grid.title("Hidato")
     
-    
+    print(grid)
     graphical_grid=[]
     for i in range(9):
         ligne = []
         for j in range(9):
             if grid[i][j] != '/':
                 f = Frame(print_grid,bg="white", bd=1, relief='solid', height =100, width = 100)
-                ligne.append((f,Label(f,font="Arial 20",justify="center",bg="white",bd=0,text=grid[i][j])))
+                ligne.append((f,Label(f,font="Arial 20",justify="center",bg="white",bd=0,text=str(grid[i][j]))))
                 ligne[j][1].pack(expand = YES)
             else:ligne.append(Frame(print_grid,bg="white",bd=0,height=100,weight=100))
         graphical_grid.append(ligne)
