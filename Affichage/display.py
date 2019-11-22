@@ -6,6 +6,7 @@ from Reconnaissance.photo_to_grid import *
 from Resolution.résolution import *
 from Resolution.resolution_optimisée import *
 from Generation.generation import *
+from Affichage.display_hidato import *
 import numpy as np
 
 
@@ -70,7 +71,7 @@ def main_window():
             game_grid[i].append('')
     saisir_button = Button(button_frame,text="Saisir la grille",command=partial(saisir_grille,root,game_grid))
     generer_button = Button(button_frame,text="Générer la grille",command=generate)
-    hidato_button = Button(button_frame,text="Hidato")
+    hidato_button = Button(button_frame,text="Hidato",command=partial(saisir_grille_hidato,root))
 
 
     quit_button = Button(root,text="Quitter",command=quit)
