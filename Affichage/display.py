@@ -21,6 +21,10 @@ def main_window():
     button_frame=Frame(root)
     info_label = Label(root, text="Choisissez comment saisir la grille:")
     scan_button = Button(button_frame,text="Scanner une grille",command=partial(choix_model,root))
+    #load = Image.open("sudoku-benzai-logo.jpg")
+    #render = ImageTk.PhotoImage(load)
+
+
     """Transforme la grille pour la renvoyer au bon format"""
     def transform(grille):
         print(grille)
@@ -66,17 +70,21 @@ def main_window():
             game_grid[i].append('')
     saisir_button = Button(button_frame,text="Saisir la grille",command=partial(saisir_grille,root,game_grid))
     generer_button = Button(button_frame,text="Générer la grille",command=generate)
-    
+    hidato_button = Button(button_frame,text="Hidato")
+
+
     quit_button = Button(root,text="Quitter",command=quit)
     info_label.grid(row=0,column=0)
     saisir_button.grid(row=0,column=0,ipady=15,padx=15)
     scan_button.grid(row=0,column=1,ipady=15,pady=30,padx=15)
     generer_button.grid(row=0,column=2,ipady=15,pady=30,padx=15)
-    button_frame.grid(row=1,column=0)
-    quit_button.grid(row=2,column=0)
+    hidato_button.grid(row=1,column=1,ipady = 15, padx=15)
+    button_frame.grid(row=2,column=0)
+    quit_button.grid(row=3,column=0)
     Grid.rowconfigure(root,0,weight=1)
     Grid.rowconfigure(root,1,weight=1)
     Grid.rowconfigure(root,2,weight=1)
+    Grid.rowconfigure(root,3,weight=1)
     Grid.columnconfigure(button_frame,0,weight=1)
     Grid.columnconfigure(button_frame,2,weight=1)
     Grid.columnconfigure(button_frame,1,weight=1)
