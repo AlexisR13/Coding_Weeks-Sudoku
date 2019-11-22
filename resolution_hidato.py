@@ -1,7 +1,7 @@
 ###Résolution hidato###
 
-def chemins(longueur_chemin):  #on construit l'ensemble des chemins possibles de longueur 'longueur_chemin', avant de garder
-    chemins_possibles=[]              #uniquement ceux qui sont possibles
+def chemins(longueur_chemin):  #on construit l'ensemble des chemins possibles de longueur 'longueur_chemin', 
+    chemins_possibles=[]       #avant de réaliser un tri et de garder uniquement ceux qui sont possibles
     for i in range(8**longueur_chemin):
         chemins_possibles.append(decomposition_base_8(i,longueur_chemin))
     return chemins_possibles
@@ -28,23 +28,22 @@ def direction(dir,case): #à chaque nombre entre 0 et 7, on associe une directio
 def chemins_coherents(grille,case1,case2):
     longueur_chemin=grille[case2[0]][case2[1]]-grille[case1[0]][case1[1]] #algorithme qui cherche à calculer quels sont
     chemin=chemins(longueur_chemin) #les chemins existants pouvant relier deux points consécutifs
-    chemins_possibles=[]
-    for j in range(len(chemin)):
-        liste_cases=[(case1[0],case1[1])]
+    chemins_possibles=[]            #de manière cohérente (donc sans passer deux fois par un même point, ne remplir 
+    for j in range(len(chemin)):    #que des cases actuellement vides située dans la grille, finissant son chemin sur la 
+        liste_cases=[(case1[0],case1[1])] #case d'arrivée 'cible'...)
         for k in range(longueur_chemin):
             nouvelle_case=direction(chemin[j][k],liste_cases[-1])
             liste_cases.append(nouvelle_case)
         if compatible(liste_cases,grille,case2)==True:chemins_possibles.append(liste_cases)
     return chemins_possibles
 
-def compatible(liste_cases,grille,case2):
+def compatible(liste_cases,grille,case2): #vérifie que le chemin proposé 
     if liste_cases[-1]!=(case2[0],case2[1]):return False
-    if pas_de_retour(liste_cases)==False:return False
+    elif pas_de_retour(liste_cases)==False:return False
     for i in range(1,len(liste_cases)-1):
         if  liste_cases[i][0]<0 or liste_cases[i][1]<0:return False
         elif  liste_cases[i][0]>=len(grille) or liste_cases[i][1]>=len(grille[0]):return False
         elif grille[liste_cases[i][0]][liste_cases[i][1]]!='':return False
-        elif liste_cases[i][0]<0 or liste_cases[i][1]<0:return False
     return True
 
 
@@ -73,16 +72,12 @@ def resolution(grille): #résolution de la grille de manière récursive
                 presence_extremum(grille,liste_cases_pleines,liste_des_cases,1)
             elif grille[liste_cases_pleines[-1][0]][liste_cases_pleines[-1][1]]!=len(liste_des_cases):
                 presence_extremum(grille,liste_cases_pleines,liste_des_cases,2)
-        
 #            pas_avance(grille,liste_cases_pleines,liste_des_cases)
-
         else:
             i=mini(ensemble_chemin)
-            if i=='Probleme':return False
-            else:
+            if i!='Probleme':
                 for k in range(len(ensemble_chemin[i])):
                     grille_bis=recopie_grille(grille,ensemble_chemin[i][k],grille[ensemble_chemin[i][k][0][0]][ensemble_chemin[i][k][0][1]])
-                    #affichage(grille_bis)
                     resolution(grille_bis)
     else:affichage(grille)
 
@@ -111,7 +106,6 @@ def presence_extremum(grille,liste_cases_pleines,liste_des_cases,k):
 
 def mini(liste): #renvoie l'indice ayant le moins de chemins possibles
     i=0
-    if len(liste)==0:return '1 ou max absent'
     for k in range(1,len(liste)):
         if len(liste[k])==0:return 'Probleme'
         elif len(liste[k])<len(liste[i]):
@@ -160,7 +154,7 @@ def affichage(grille):
             else:A+=str(grille[i][j])+' '
         A+= '\n'
     print(A)
-    
+
 
 hidato1=[['', 33, 35, '', '', '/', '/', '/'],
         [ '', '', 24, 22, '', '/', '/', '/'],
@@ -195,4 +189,4 @@ hidato4=[['', 27, '/', '', 24],
          [8, '', '', '', ''],
          ['', '', '/', '', 14]]
 
-resolution(hidato4)
+resolution(hidato3)
