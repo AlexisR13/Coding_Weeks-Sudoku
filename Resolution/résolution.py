@@ -137,8 +137,6 @@ def transform_grid(grid):
             else: grid[i][j] = grid[i][j]
     return grid
 
-<<<<<<< HEAD
-=======
 
 def empty_count(grid):
     """
@@ -169,7 +167,6 @@ def verif(grid):
         return s
 
 
->>>>>>> Thomas
 
 
 
