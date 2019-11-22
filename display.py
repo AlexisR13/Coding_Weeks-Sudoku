@@ -8,10 +8,7 @@ from Resolution.resolution_optimisée import *
 from Generation.generation import *
 import numpy as np
 
-<<<<<<< HEAD
-=======
 
->>>>>>> Thomas
 
 
 
@@ -96,7 +93,7 @@ def loading_bar(window,maxValue):
 
 
 def open_scan(root,model):
-    """On ouvre une fenetre pour choisir l'image à scanner""""
+    """On ouvre une fenetre pour choisir l'image à scanner"""
     filename = filedialog.askopenfilename(initialdir = "/images",title = "Selectionnez une image",filetypes = (("jpeg files","*.jpg"),("all files","*.*")))
     grid = photo_to_grid(filename,model)
     popupmsg(root,grid)
