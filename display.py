@@ -11,6 +11,7 @@ import numpy as np
 
 
 def main_window():
+    """On défini la fenêtre principale"""
     root = Tk()
     root.title("Résolution de Sudoku")    
     root.resizable(0,0)
@@ -18,6 +19,7 @@ def main_window():
     button_frame=Frame(root)
     info_label = Label(root, text="Choisissez comment saisir la grille:")
     scan_button = Button(button_frame,text="Scanner une grille",command=partial(choix_model,root))
+    """Transforme la grille pour la renvoyer au bon format"""
     def transform(grille):
         print(grille)
         for i in range(9):
@@ -27,6 +29,7 @@ def main_window():
                     grille[i][j] = ''
                 else: grille[i][j] = int(grille[i][j])
         return grille
+    """Popup avec une interface pour choisir la difficulté de la grille """
     def generate():
         popup = Tk()
         def destroy():
@@ -81,7 +84,7 @@ def main_window():
 
 
 def open_scan(root,model):
-    #jpg
+    """On ouvre une fenetre pour choisir l'image à scanner""""
     filename = filedialog.askopenfilename(initialdir = "/images",title = "Selectionnez une image",filetypes = (("jpeg files","*.jpg"),("all files","*.*")))
     grid = photo_to_grid(filename,model)
     popupmsg(root,grid)
@@ -102,6 +105,7 @@ def popupmsg(root,grid):
     popup.mainloop()
 
 def choix_model(root):
+    """On demande à l'utilisateur si la grille est remplie à la main ou à l'ordie"""
     popup = Tk()
     choix = StringVar(popup)
     choix.set('main')
@@ -125,9 +129,10 @@ def choix_model(root):
     popup.mainloop()
 
 def affiche_grille(root,grille):
+    """Interface pour afficher la grille"""
     grid = Toplevel(root)
     grid.title("Sudoku")
-    
+    """On divise la grille en sous grille pour afficher les 9 sous carrés avec un bord plus épais"""
     main_grid = []
     for i in range(3):
         ligne = []
@@ -166,7 +171,9 @@ def affiche_grille(root,grille):
 
     grid.grid()
 def check_grid(root,grille,grille_initiale):
+    """Verifie si la grille qui est envoyé est correcte """
     def transform_grille():
+        """Transforme la grille pour la mettre au bon format"""
         grille_intermediaire = []
         for i in range(9):
             grille_intermediaire.append([])
@@ -182,6 +189,7 @@ def check_grid(root,grille,grille_initiale):
         
     correcte = verification_grille(transform_grille())
     def popupcheck(correcte):
+        """Popup qui affiche si la grille est correcte"""
         popup = Tk()
         def destroy():
             popup.destroy()
@@ -203,7 +211,9 @@ def check_grid(root,grille,grille_initiale):
 
     
 def play_grid(root,grille,grille_modif):
+
     def grid_to_list():
+        """Recupere les entrees pour les mettre sous forme de liste"""
         sudoku_grid = []
         for i in range(9):
             sudoku_grid.append([])
@@ -218,6 +228,7 @@ def play_grid(root,grille,grille_modif):
         check_grid(root,sudoku_grid,grille)
     def suggest():
         def update_transform_grid():
+            """recupere les valeurs de la grille et les mets au bon format"""
             sudoku_grid = []
             for i in range(9):
                 sudoku_grid.append([])
@@ -231,7 +242,7 @@ def play_grid(root,grille,grille_modif):
                     else: sudoku_grid[i].append([int(value)])
             return sudoku_grid
             
-
+        """Interface pour donner un indice à l'utilisateur"""
         indice = donner_indice(update_transform_grid())
         popup = Tk()
         def destroy():
@@ -249,7 +260,7 @@ def play_grid(root,grille,grille_modif):
         B1.pack()
         popup.mainloop()
     def sup():
-        
+        """Permet à l'utilisateur d'ajouter des suppositions à la case selectionnée"""
         for k in range(9):
             for l in range(9):
                 if graphical_grid[k][l][1] == window.focus_get():
@@ -272,9 +283,9 @@ def play_grid(root,grille,grille_modif):
         B1.pack()
         pop.mainloop()
         
-        print(i,j)
+        
 
-
+    """Affiche l'interface pour jouer avec des boutons pour donner une suggestion ou ajouter une supposition"""
     window = Toplevel(root)
     window.title("Sudoku")
     window.resizable(0,0)
@@ -350,6 +361,7 @@ def play_grid(root,grille,grille_modif):
 
 
 def saisir_grille(root,grille):
+    """Interface pour saisir la grille et pour la vérifier après l'avoir scannée"""
     def grid_to_list(action):
         sudoku_grid = []
         for i in range(9):
