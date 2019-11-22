@@ -79,7 +79,9 @@ def resolution(grille): #résolution de la grille de manière récursive
                     grille_bis=recopie_grille(grille,ensemble_chemin[i][k],grille[ensemble_chemin[i][k][0][0]][ensemble_chemin[i][k][0][1]])
                     #affichage(grille_bis)
                     resolution(grille_bis)
-    else:affichage(grille)
+    else:
+        print(grille)
+        return grille
 
 """def presence_extremum(grille):
     maxi=0
