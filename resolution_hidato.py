@@ -37,8 +37,8 @@ def chemins_coherents(grille,case1,case2):
         if compatible(liste_cases,grille,case2)==True:chemins_possibles.append(liste_cases)
     return chemins_possibles
 
-def compatible(liste_cases,grille,case2): #vérifie que le chemin proposé 
-    if liste_cases[-1]!=(case2[0],case2[1]):return False
+def compatible(liste_cases,grille,case2): #vérifie que le chemin proposé est compatible avec l'avancement de la grille
+    if liste_cases[-1]!=(case2[0],case2[1]):return False #actuel
     elif pas_de_retour(liste_cases)==False:return False
     for i in range(1,len(liste_cases)-1):
         if  liste_cases[i][0]<0 or liste_cases[i][1]<0:return False
@@ -68,28 +68,25 @@ def resolution(grille): #résolution de la grille de manière récursive
     ensemble_chemin=ensemble_chemins(grille,liste_cases_pleines) #ainsi que l'ensemble des chemins possibles
     if len(liste_cases_pleines)!=len(liste_des_cases): #si la grille n'est pas encore entièrement résolue
         if ensemble_chemin=='Pas avance':
-            if grille[liste_cases_pleines[0][0]][liste_cases_pleines[0][1]]!=1:
-                presence_extremum(grille,liste_cases_pleines,liste_des_cases,1)
-            elif grille[liste_cases_pleines[-1][0]][liste_cases_pleines[-1][1]]!=len(liste_des_cases):
+            if grille[liste_cases_pleines[0][0]][liste_cases_pleines[0][1]]!=1:#si la grille n'est pas encore résolue, soit 
+                presence_extremum(grille,liste_cases_pleines,liste_des_cases,1) #on n'a pas le numéro 1, soit on n'a pas le 
+            elif grille[liste_cases_pleines[-1][0]][liste_cases_pleines[-1][1]]!=len(liste_des_cases): #numéro de fin
                 presence_extremum(grille,liste_cases_pleines,liste_des_cases,2)
-#            pas_avance(grille,liste_cases_pleines,liste_des_cases)
         else:
-            i=mini(ensemble_chemin)
-            if i!='Probleme':
-                for k in range(len(ensemble_chemin[i])):
+            i=mini(ensemble_chemin) #je repère quel est le chemin ayant le moins de possibilités, et je travaille dessus, afin de 
+            if i!='Probleme': #résoudre la grille
+                for k in range(len(ensemble_chemin[i])): #s'il n'existe aucun chemin permettant de relier deux points, la grille est fausse
                     grille_bis=recopie_grille(grille,ensemble_chemin[i][k],grille[ensemble_chemin[i][k][0][0]][ensemble_chemin[i][k][0][1]])
-                    resolution(grille_bis)
-    else:
-        print(grille)
-        return grille
+                    resolution(grille_bis) #on résoud le hidato de manière récursive
+    else:affichage(grille)
 
 def presence_extremum(grille,liste_cases_pleines,liste_des_cases,k):
-    if k==1:
+    if k==1:    #fonction qui cherche à ajouter le numéro 1, et le numéro max, si jamais ceux-ci ne sont pas déjà placé dans la grille
         for (i,j) in liste_des_cases:
             if (i,j) not in liste_cases_pleines:
                 grille_bis=recopie_grille(grille,[],0)
-                grille_bis[i][j]=1
-                resolution(grille_bis)
+                grille_bis[i][j]=1 #pour celà, les fonctions placent le maxima, ou le minima sur toutes les cases libres, et on cherche
+                resolution(grille_bis) #à garder uniquement les grilles que l'on peut résoudre
     else:
         for (i,j) in liste_des_cases:
             if (i,j) not in liste_cases_pleines:
@@ -98,15 +95,7 @@ def presence_extremum(grille,liste_cases_pleines,liste_des_cases,k):
                 resolution(grille_bis)
     
 
-"""def pas_avance(grille,liste_cases_pleines,liste_des_cases):
-    connus=[grille[liste_cases_pleines[i][0]][liste_cases_pleines[i][1] for i in range(len(liste_cases_pleines))]
-    ecarts=[connu[0]]
-    for i in range(len(connus)-1):
-        ecarts.append(connu[i+1]-connu[i])
-    mini=min(ecarts)
-    ecart.index(mini)"""
-
-def mini(liste): #renvoie l'indice ayant le moins de chemins possibles
+def mini(liste): #renvoie l'indice ayant le moins de chemins possibles, afin de remplir la grille de manière rapide
     i=0
     for k in range(1,len(liste)):
         if len(liste[k])==0:return 'Probleme'
@@ -114,29 +103,28 @@ def mini(liste): #renvoie l'indice ayant le moins de chemins possibles
             i=k
     return i
 
-
 def recopie_grille(grille,nouveau_chemin,l): #fonction qui recopie la grille en appliquant le nouveau chemin
-    grille_bis=[[] for i in range(len(grille))] #en même temps
+    grille_bis=[[] for i in range(len(grille))]
     for i in range(len(grille)):
         for j in range(len(grille[i])):
             grille_bis[i].append(grille[i][j])
     for k in range(len(nouveau_chemin)-1):
         grille_bis[nouveau_chemin[k][0]][nouveau_chemin[k][1]]=l+k
-    return grille_bis
+    return grille_bis #on renvoie la grille remplie. On travaillera ensuite sur cette nouvelle grille
     
 
 def liste_cases(grille): #fonction qui renvoie la liste des cases pleines (mais ne renvoie pas leurs valeurs), ainsi que la 
     liste_cases_pleines=[] #liste des cases
     liste_des_cases=[]
     for i in range(len(grille)):
-        for j in range(len(grille[i])):
-            if grille[i][j]!='/':
+        for j in range(len(grille[i])): #De plus, la liste des cases pleines est déjà triées en fonction de la valeur de ces 
+            if grille[i][j]!='/': #cases
                 liste_des_cases.append((i,j))
                 if grille[i][j]!='':liste_cases_pleines.append((i,j))
     liste_cases_pleines_triees=tri(liste_cases_pleines,grille)
     return(liste_cases_pleines_triees,liste_des_cases)
 
-def tri(liste_cases_pleines,grille):
+def tri(liste_cases_pleines,grille):#permet de trier les cases pleines, en fonction de leurs valeurs
     valeurs=[(grille[liste_cases_pleines[k][0]][liste_cases_pleines[k][1]],liste_cases_pleines[k]) for k in range(len(liste_cases_pleines))]
     for i in range(len(valeurs)):
         for j in range(0, len(valeurs)-i-1):
@@ -147,9 +135,8 @@ def tri(liste_cases_pleines,grille):
 
 
 def affichage(grille): 
-    """permet d'afficher la grille de manière lisible pour un humain"""
     A='La solution de la grille est : \n'
-    for i in range(len(grille)):
+    for i in range(len(grille)): #permet d'afficher la grille de manière lisible pour un humain
         for j in range(len(grille[i])):
             if grille[i][j]=='':A+='   '
             elif grille[i][j]=='/':A+=' / '
@@ -191,4 +178,4 @@ hidato4=[['', 27, '/', '', 24],
          [8, '', '', '', ''],
          ['', '', '/', '', 14]]
 
-resolution(hidato3)
+resolution(hidato1)
