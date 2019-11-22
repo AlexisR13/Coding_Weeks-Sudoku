@@ -40,13 +40,49 @@ def saisir_grille_hidato(root):
         print(hidato_grid)
         affiche_grille_hidato(root,renvoie(hidato_grid))
         window.destroy()
+    def check_grid():
+        """Verifie si la grille qui est envoyé est correcte """
+        hidato_grid = []
+        for i in range(8):
+            hidato_grid.append([])
+            for j in range(8):
+                if len(graphical_grid[i][j])==1:
+                    hidato_grid[i].append('/')
+                elif graphical_grid[i][j][1].get()=='':
+                    hidato_grid[i].append('')
+                else:
+                    value = graphical_grid[i][j][1].get()
+                    hidato_grid[i].append(int(value))
+        
+        correcte = is_grille_correcte(hidato_grid)
+        def popupcheck(correcte):
+            """Popup qui affiche si la grille est correcte"""
+            popup = Tk()
+            def destroy():
+                popup.destroy()
+                if correcte:
+                    root.destroy
+            if correcte:
+                popup.wm_title("Hidato")
+                label = Label(popup, text="La grille est correcte vous avez gagné!")
+            else:
+                popup.wm_title("Hidato")
+                label = Label(popup, text="La grille est incorrecte, veuillez rééssayer")
+            label.pack(side="top", fill="x", pady=10)
+            B1 = Button(popup, text="Okay", command = destroy)
+            B1.pack()
+            popup.mainloop()
+        popupcheck(correcte)
     window = Toplevel(root)
     window.title("Saisir une grille de Hidato")
     window.grid()
     grid_frame = Frame(window)
-    solve_button = Button(window,text="Résoudre",command=grid_to_list)
+    button_frame = Frame(window)
+    solve_button = Button(button_frame,text="Résoudre",command=grid_to_list)
+    check_button = Button(button_frame,text="Vérifier la grille",command=check_grid)
     grid_frame.grid(row=0,column=0,sticky=N+S+E+W)
-    solve_button.grid(row=1,column=0,sticky=N+S+E+W,pady=10)
+    button_frame.grid(row=1,column=0,sticky=N+S+E+W)
+    solve_button.grid(row=0,column=1,sticky=N+S+E+W,pady=10)
     Grid.rowconfigure(window,0,weight=1)
     Grid.columnconfigure(window,0,weight=1)
     graphical_grid = []
