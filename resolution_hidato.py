@@ -14,7 +14,7 @@ def decomposition_base_8(i,longueur_chemin): #on décompose i en base 8, afin d'
     return base_8
 
 def direction(dir,case): #à chaque nombre entre 0 et 7, on associe une direction
-    i,j=case
+    i,j=case             #et on renvoie la case sur laquelle on est ensuite
     if dir==0:return((i-1,j-1))
     if dir==1:return((i-1,j))
     if dir==2:return((i-1,j+1))
@@ -68,9 +68,14 @@ def resolution(grille): #résolution de la grille de manière récursive
     liste_cases_pleines,liste_des_cases=liste_cases(grille)  #on répère quelles sont les cases sur lesquelles il faut travailler
     ensemble_chemin=ensemble_chemins(grille,liste_cases_pleines) #ainsi que l'ensemble des chemins possibles
     if len(liste_cases_pleines)!=len(liste_des_cases): #si la grille n'est pas encore entièrement résolue
-        if ensemble_chemin=='Pas avance':None
+        if ensemble_chemin=='Pas avance':
+            if grille[liste_cases_pleines[0][0]][liste_cases_pleines[0][1]]!=1:
+                presence_extremum(grille,liste_cases_pleines,liste_des_cases,1)
+            elif grille[liste_cases_pleines[-1][0]][liste_cases_pleines[-1][1]]!=len(liste_des_cases):
+                presence_extremum(grille,liste_cases_pleines,liste_des_cases,2)
+        
 #            pas_avance(grille,liste_cases_pleines,liste_des_cases)
-    
+
         else:
             i=mini(ensemble_chemin)
             if i=='Probleme':return False
@@ -79,25 +84,26 @@ def resolution(grille): #résolution de la grille de manière récursive
                     grille_bis=recopie_grille(grille,ensemble_chemin[i][k],grille[ensemble_chemin[i][k][0][0]][ensemble_chemin[i][k][0][1]])
                     #affichage(grille_bis)
                     resolution(grille_bis)
-    else:affichage(grille)
+    else:
+        print(grille)
+        return grille
 
-"""def presence_extremum(grille):
-    maxi=0
-    mini=10000
-    nb_case=len(grille)*len(grille[0])
-    for i in range(len(grille)):
-        for j in range(len(grille[i])):
-            if grille[i][j]=='/':nb_case-=1
-            elif grille[i][j]=='': None
-            elif maxi<grille[i][j]:maxi=grille[i][j]
-            elif mini>grille[i][j]:mini=grille[i][j]
-    if mini!=1:un_pres=False
-    else: un_pres=True
-    if maxi!=nb_case:max_pres=False
-    else:max_pres=True
-    return(un_pres,max_pres)"""
-"""
-def pas_avance(grille,liste_cases_pleines,liste_des_cases):
+def presence_extremum(grille,liste_cases_pleines,liste_des_cases,k):
+    if k==1:
+        for (i,j) in liste_des_cases:
+            if (i,j) not in liste_cases_pleines:
+                grille_bis=recopie_grille(grille,[],0)
+                grille_bis[i][j]=1
+                resolution(grille_bis)
+    else:
+        for (i,j) in liste_des_cases:
+            if (i,j) not in liste_cases_pleines:
+                grille_bis=recopie_grille(grille,[],0)
+                grille_bis[i][j]=len(liste_des_cases)
+                resolution(grille_bis)
+    
+
+"""def pas_avance(grille,liste_cases_pleines,liste_des_cases):
     connus=[grille[liste_cases_pleines[i][0]][liste_cases_pleines[i][1] for i in range(len(liste_cases_pleines))]
     ecarts=[connu[0]]
     for i in range(len(connus)-1):
@@ -120,7 +126,7 @@ def recopie_grille(grille,nouveau_chemin,l): #fonction qui recopie la grille en 
     for i in range(len(grille)):
         for j in range(len(grille[i])):
             grille_bis[i].append(grille[i][j])
-    for k in range(1,len(nouveau_chemin)-1):
+    for k in range(len(nouveau_chemin)-1):
         grille_bis[nouveau_chemin[k][0]][nouveau_chemin[k][1]]=l+k
     return grille_bis
     
@@ -156,7 +162,7 @@ def affichage(grille):
             else:A+=str(grille[i][j])+' '
         A+= '\n'
     print(A)
-
+    
 
 hidato1=[['', 33, 35, '', '', '/', '/', '/'],
         [ '', '', 24, 22, '', '/', '/', '/'],
@@ -178,15 +184,15 @@ hidato2=[[ '', '', 77, 81, '', 45, '', 43, '', ''],
          [ '', '', '', 11, '',20, '', '', 26, ''],
          [65, '', 63, '', '', 23, '', '',  '', '']]
 
-hidato3=[[21, 1, '' ,'/', 5],
+hidato3=[['', '', '' ,'/', 5],
          ['/','', '', '', ''],
          ['', 16, 19, '', ''],
          [14, '', '', '','/'],
          ['', '/',11, '', 9]]
 
-hidato4=[[28, 27, '/', '', 24],
+hidato4=[['', 27, '/', '', 24],
          ['', 3,  '', '', ''],
-         ['', 1,'',  21 , ''],
+         ['', '','',  21 , ''],
          ['', 5 , 12, '' , 17],
          [8, '', '', '', ''],
          ['', '', '/', '', 14]]

@@ -2,9 +2,9 @@ from tkinter import filedialog
 from tkinter import *
 from functools import partial
 from Reconnaissance.photo_to_grid import *
-from résolution_sous_optimal import *
+from Resolution.résolution import *
 from resolution_optimisée import *
-from generation import *
+from Generation.generation import *
 import numpy as np
 from Resolution.résolution_sous_optimal import *
 
@@ -360,6 +360,7 @@ def saisir_grille(root,grille):
                     sudoku_grid[i].append('')
                 else: sudoku_grid[i].append(int(value))
         if action == 'solve':
+            print(sudoku_grid)
             affiche_grille(root,resolve(transform_grid(sudoku_grid)))
         elif action =='play':
             grille_modif = []
