@@ -63,36 +63,46 @@ def ensemble_chemins(grille,liste_cases_pleines):#pour tous les points consécut
     if avance==False:return 'Pas avance'
     else:return ensemble_chemins_valides
 
-def resolution(grille): #résolution de la grille de manière récursive
+def resolution(grille,l): #résolution de la grille de manière récursive
     liste_cases_pleines,liste_des_cases=liste_cases(grille)  #on répère quelles sont les cases sur lesquelles il faut travailler
     ensemble_chemin=ensemble_chemins(grille,liste_cases_pleines) #ainsi que l'ensemble des chemins possibles
     if len(liste_cases_pleines)!=len(liste_des_cases): #si la grille n'est pas encore entièrement résolue
         if ensemble_chemin=='Pas avance':
             if grille[liste_cases_pleines[0][0]][liste_cases_pleines[0][1]]!=1:#si la grille n'est pas encore résolue, soit 
-                presence_extremum(grille,liste_cases_pleines,liste_des_cases,1) #on n'a pas le numéro 1, soit on n'a pas le 
+                presence_extremum(grille,liste_cases_pleines,liste_des_cases,1,l) #on n'a pas le numéro 1, soit on n'a pas le 
             elif grille[liste_cases_pleines[-1][0]][liste_cases_pleines[-1][1]]!=len(liste_des_cases): #numéro de fin
-                presence_extremum(grille,liste_cases_pleines,liste_des_cases,2)
+                presence_extremum(grille,liste_cases_pleines,liste_des_cases,2,l)
         else:
             i=mini(ensemble_chemin) #je repère quel est le chemin ayant le moins de possibilités, et je travaille dessus, afin de 
             if i!='Probleme': #résoudre la grille
                 for k in range(len(ensemble_chemin[i])): #s'il n'existe aucun chemin permettant de relier deux points, la grille est fausse
                     grille_bis=recopie_grille(grille,ensemble_chemin[i][k],grille[ensemble_chemin[i][k][0][0]][ensemble_chemin[i][k][0][1]])
-                    resolution(grille_bis) #on résoud le hidato de manière récursive
-    else:affichage(grille)
+                    resolution(grille_bis,l) #on résoud le hidato de manière récursive
+    else:
+         l.append(grille)
 
-def presence_extremum(grille,liste_cases_pleines,liste_des_cases,k):
+def renvoie(grille):
+    l = []
+    resolution(grille,l)
+    for x in l:
+        if x != None:
+            return x
+
+
+
+def presence_extremum(grille,liste_cases_pleines,liste_des_cases,k,l):
     if k==1:    #fonction qui cherche à ajouter le numéro 1, et le numéro max, si jamais ceux-ci ne sont pas déjà placé dans la grille
         for (i,j) in liste_des_cases:
             if (i,j) not in liste_cases_pleines:
                 grille_bis=recopie_grille(grille,[],0)
                 grille_bis[i][j]=1 #pour celà, les fonctions placent le maxima, ou le minima sur toutes les cases libres, et on cherche
-                resolution(grille_bis) #à garder uniquement les grilles que l'on peut résoudre
+                resolution(grille_bis,l) #à garder uniquement les grilles que l'on peut résoudre
     else:
         for (i,j) in liste_des_cases:
             if (i,j) not in liste_cases_pleines:
                 grille_bis=recopie_grille(grille,[],0)
                 grille_bis[i][j]=len(liste_des_cases)
-                resolution(grille_bis)
+                resolution(grille_bis,l)
     
 
 def mini(liste): #renvoie l'indice ayant le moins de chemins possibles, afin de remplir la grille de manière rapide
@@ -191,6 +201,7 @@ hidato4=[['', 27, '/', '', 24],
          ['', 5 , 12, '' , 17],
          [8, '', '', '', ''],
          ['', '', '/', '', 14]]
+<<<<<<< HEAD
 
 hidato_resolu=[[21,   2,  3,'/',  5],
                ['/', 20,  1,  4,  6],
@@ -199,3 +210,5 @@ hidato_resolu=[[21,   2,  3,'/',  5],
                [13, '/', 11, 10,  9]]
 #resolution(hidato3)
 print(is_grille_correcte(hidato_resolu))
+=======
+>>>>>>> 2417cfcf67fbece9d9331a8d560f5bf83ca3a593

@@ -34,7 +34,7 @@ def photo_to_grid(path,model):
             grid[i//9][i%9] = ""
         else:
             chiffre = (model.predict(digit_reshape[i]))
-            chiffre = analyse(arr[0])
+            chiffre = maximum(chiffre[0])
             if chiffre == 0:
                 chiffre =1
             grid[i//9][i%9] =  str(chiffre)

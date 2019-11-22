@@ -1,24 +1,24 @@
 import numpy as np
 from random import randint
-from Generation.generation import empty_count
 
-def ligne(grid,i,k):
+
+def ligne(grid,i,k,t=-1):
     """
     vérifie les contraintes liées aux chiffres sur la même ligne
     """
     n = len(grid)
     for j in range(n):
-        if grid[i][j] == k:
+        if grid[i][j] == k and j != t:
             return False
     return True
 
-def colonne(grid,i,k):
+def colonne(grid,i,k,t = -1):
     """
     vérifie les contraintes liées aux chiffres sur la même colonne
     """
     n = len(grid)
     for j in range(n):
-        if grid[j][i] == k:
+        if grid[j][i] == k and j != t:
             return False
     return True
 
@@ -31,7 +31,7 @@ def carré(grid,i,j,k):
     y0 = j - (j % 3)
     for x in range(3):
         for y in range(3):
-            if grid[x0+x][y0+y] == k:
+            if grid[x0+x][y0+y] == k and (x0 + x) != i and (y0 + y) != j:
                 return False
     return True
 
@@ -138,11 +138,42 @@ def transform_grid(grid):
     return grid
 
 
+def empty_count(grid):
+    """
+    compte le nombre de case vide d'une grille
+    """
+    n = len(grid)
+    count = 0
+    for i in range(n):
+        for j in range(n):
+            if grid[i][j] == 0:
+                count += 1
+    return count
+
+def verif(grid):
+    """
+    vérifie si la grille donnée est résolue ou non
+    """
+    if not empty_count(grid) == 0:
+        return False
+    else:
+        
+        s = True
+        for i in range(9):
+            for j in range(9):
+                print(i,j)
+                print(s)
+                s = s and ligne(grid,i,grid[i][j],j) and colonne(grid,j,grid[i][j],i) and carré(grid,i,j,grid[i][j])
+        return s
+
+
+
 
 
 
 
 ex  = [[9,5,0,0,0,0,0,4,8],[0,0,0,0,1,0,0,0,0],[0,6,3,2,0,4,9,1,0],[0,2,5,0,0,0,7,8,0],[3,8,0,5,0,9,0,2,4],[0,9,4,0,0,0,3,6,0],[0,4,9,7,0,3,8,5,0],[0,0,0,0,6,0,0,0,0],[2,1,0,0,0,0,0,7,3]]
+
 
 ex2 =  [[0,6,0,8,9,3,0,4,0],[2,0,0,0,0,0,0,0,6],[0,0,3,2,0,1,7,0,0],[7,0,0,0,5,0,0,0,8],[3,0,8,1,7,6,5,0,4],[9,0,0,0,3,0,0,0,1],[0,0,5,6,0,9,4,0,0],[6,0,0,0,0,0,0,0,5],[0,9,0,5,2,7,0,1,0]]
 sudoku=[['' ,[6],'' ,[8],[9],[3],'' ,[4],'' ],
