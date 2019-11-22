@@ -28,14 +28,14 @@ programmes cités plus-haut. Le but de cette partie est donc de construire une g
 ____________________________________________________________________________________________________________________________________________________________________________________
 Modules utilisés :
 
-numpy
-openCV
-matplotlib
-operator
-random
-tkinter
-functools
-Pypi
+- numpy
+- openCV
+- matplotlib
+- operator
+- random
+- tkinter
+- functools
+- Pypi
 ____________________________________________________________________________________________________________________________________________________________________________________
 
 
@@ -54,20 +54,20 @@ ________________________________________________________________________________
 
 Fonctionnalités suplémentaires : 
 
-Générer une grille selon trois niveaux de difficulté
-Donner des indices
-Faire des hypothèses dans des cases
-Jouer et résoudre le jeu "Hidato"
-2 modèles de reconnaissance d'image pour plus de précision
+- Générer une grille selon trois niveaux de difficulté
+- Donner des indices
+- Faire des hypothèses dans des cases
+- Jouer et résoudre le jeu "Hidato"
+- 2 modèles de reconnaissance d'image pour plus de précision
 
 ____________________________________________________________________________________________________________________________________________________________________________________
 Etudiants:
 
-Arthur Guédon
-Alexis Richard
-Thomas Pouplin
-Charles Guillard
-Lucas Sor
+- Arthur Guédon
+- Alexis Richard
+- Thomas Pouplin
+- Charles Guillard
+- Lucas Sor
 ____________________________________________________________________________________________________________________________________________________________________________________
 
 Ressources :
