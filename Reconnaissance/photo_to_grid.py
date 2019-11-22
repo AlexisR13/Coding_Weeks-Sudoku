@@ -23,7 +23,7 @@ def photo_to_grid(path,model):
         model = tf.keras.models.load_model('Reconnaissance/model2.h5') #chargement du modèle "chiffre écrit à l'ordinateur"
         digit_reshape  = np.float64(np.array([x.reshape(1,28,28) for x in digit]))  
     else:
-        model = tf.keras.models.load_model('Reconnaissance/mnistCNN.h5') #chargement du modèle "chiffre écrit à la main"
+        model = tf.keras.models.load_model('Reconnaissance/model_mnist.h5') #chargement du modèle "chiffre écrit à la main"
         digit_reshape  = np.float64(np.array([x.reshape(1,28,28,1) for x in digit]))
     
     grid = np.full((9,9), "")

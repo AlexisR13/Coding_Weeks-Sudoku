@@ -214,10 +214,3 @@ hidato_faux  =[[21,   2,  3,'/',  6],
                [13, '/', 11, 10,  9]]
 
 
-affichage(renvoie(hidato3))
-#affichage(renvoie(hidato4))
-#affichage(renvoie(hidato1))
-#affichage(renvoie(hidato2))
-
-print(is_grille_correcte(hidato_correct))
-print(is_grille_correcte(hidato_faux))

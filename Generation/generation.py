@@ -10,7 +10,7 @@ def grid_full():
     """
     grid = np.zeros((9,9))
     count = 0
-    while count < 15:
+    while count < 15: #ajoute 15 valeur de manière aléatoire en respectant les contraintes du sudoku à une grille vide
         value = randint(1,9)
         x = randint(0,8)
         y = randint(0,8)
@@ -27,7 +27,7 @@ def unicité(grid_ref,grid):
     """
     teste l'unicité d'une grille
     """
-    for i in range(5):
+    for i in range(5): #on test plusieurs résolutions aléatoires et on compare par rapport à la grid full
 
         if False in (grid_ref == resolve_random(grid)):
             return False
