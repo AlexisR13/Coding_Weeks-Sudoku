@@ -201,14 +201,23 @@ hidato4=[['', 27, '/', '', 24],
          ['', 5 , 12, '' , 17],
          [8, '', '', '', ''],
          ['', '', '/', '', 14]]
-<<<<<<< HEAD
 
-hidato_resolu=[[21,   2,  3,'/',  5],
+hidato_correct=[[21,   2,  3,'/',  5],
                ['/', 20,  1,  4,  6],
                [15,  16, 19, 18,  7],
                [14,  12, 17,  8,'/'],
                [13, '/', 11, 10,  9]]
-#resolution(hidato3)
-print(is_grille_correcte(hidato_resolu))
-=======
->>>>>>> 2417cfcf67fbece9d9331a8d560f5bf83ca3a593
+hidato_faux  =[[21,   2,  3,'/',  6],
+               ['/', 20,  1,  4,  5],
+               [15,  16, 19, 18,  7],
+               [14,  12, 17,  8,'/'],
+               [13, '/', 11, 10,  9]]
+
+
+affichage(renvoie(hidato3))
+#affichage(renvoie(hidato4))
+#affichage(renvoie(hidato1))
+#affichage(renvoie(hidato2))
+
+print(is_grille_correcte(hidato_correct))
+print(is_grille_correcte(hidato_faux))
