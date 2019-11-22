@@ -1,18 +1,6 @@
 Sudoku : photographiez/resolvez
 
 ____________________________________________________________________________________________________________________________________________________________________________________
-Modules utilisés :
-
-numpy
-openCV
-matplotlib
-operator
-random
-tkinter
-functools
-Pypi
-
-____________________________________________________________________________________________________________________________________________________________________________________
 
 
 Dans le cadre de ce projet de coding weeks, nous avons pour but de réaliser un solveur de grilles de Sudoku. Ce solveur devra :
@@ -37,10 +25,19 @@ fournir à l'utilisateur une grille résolue affichée par l'interface graphique
 3) Cette partie (reconnaissance) consiste en la transformation d'une photographie de grille de sudoku en données numériques, traitables par les différents algorithmes et 
 programmes cités plus-haut. Le but de cette partie est donc de construire une grille à partir de la photographie, en reconnaissant les cases vides et les nombres.
 
-
-
-
 ____________________________________________________________________________________________________________________________________________________________________________________
+Modules utilisés :
+
+numpy
+openCV
+matplotlib
+operator
+random
+tkinter
+functools
+Pypi
+____________________________________________________________________________________________________________________________________________________________________________________
+
 
 Pour utiliser le programme, 
 
@@ -55,8 +52,25 @@ voulez générer une grille. Si vous avez chosi de scanner une grille, sélectio
 
 ____________________________________________________________________________________________________________________________________________________________________________________
 
+Fonctionnalités suplémentaires : 
+
+Générer une grille selon trois niveaux de difficulté
+Donner des indices
+Faire des hypothèses dans des cases
+Jouer et résoudre le jeu "Hidato"
+2 modèles de reconnaissance d'image pour plus de précision
+
+____________________________________________________________________________________________________________________________________________________________________________________
+Etudiants:
+
+Arthur Guédon
+Alexis Richard
+Thomas Pouplin
+Charles Guillard
+Lucas Sor
+____________________________________________________________________________________________________________________________________________________________________________________
+
 Ressources :
 
 Traitement d'image : https://medium.com/@neshpatel/solving-sudoku-part-ii-9a7019d196a2 / https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_setup/py_setup_in_windows/py_setup_in_windows.html
 Réseau de neuronnes : https://www.tensorflow.org/tutorials/quickstart/beginner
-
