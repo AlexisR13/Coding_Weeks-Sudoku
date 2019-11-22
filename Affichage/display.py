@@ -7,6 +7,7 @@ from Resolution.résolution import *
 from Resolution.resolution_optimisée import *
 from Generation.generation import *
 import numpy as np
+from PIL import Image, ImageTk
 
 
 
@@ -15,14 +16,20 @@ import numpy as np
 def main_window():
     """On défini la fenêtre principale"""
     root = Tk()
+    root.configure(background = "white")
     root.title("Résolution de Sudoku")    
     root.resizable(0,0)
-    root.geometry('380x200')
+    root.geometry('500x500')
     button_frame=Frame(root)
-    info_label = Label(root, text="Choisissez comment saisir la grille:")
-    scan_button = Button(button_frame,text="Scanner une grille",command=partial(choix_model,root))
-    #load = Image.open("sudoku-benzai-logo.jpg")
-    #render = ImageTk.PhotoImage(load)
+    button_frame.configure(background = "white")
+    Grid.columnconfigure(root,0,weight=1)
+    scan_button = Button(button_frame,text="Scanner une grille", bg = "black", fg = "snow",command=partial(choix_model,root))
+    scan_button.textcolor = "snow"
+    load = Image.open("titre.jpg").resize((500,120))
+    render = ImageTk.PhotoImage(load)
+    img = Label(root, image=render)
+    img.image = render
+    img.place(x = 0, y = 0)
 
 
     """Transforme la grille pour la renvoyer au bon format"""
@@ -68,19 +75,18 @@ def main_window():
         game_grid.append([])
         for j in range(9):
             game_grid[i].append('')
-    saisir_button = Button(button_frame,text="Saisir la grille",command=partial(saisir_grille,root,game_grid))
-    generer_button = Button(button_frame,text="Générer la grille",command=generate)
-    hidato_button = Button(button_frame,text="Hidato")
+    saisir_button = Button(button_frame,bg = "black", fg = "white",text="Saisir la grille",command=partial(saisir_grille,root,game_grid))
+    generer_button = Button(button_frame,bg = "black", fg = "white",text="Générer la grille",command=generate)
+    hidato_button = Button(button_frame,bg = "#8B2230",text="Hidato")
 
 
-    quit_button = Button(root,text="Quitter",command=quit)
-    info_label.grid(row=0,column=0)
-    saisir_button.grid(row=0,column=0,ipady=15,padx=15)
-    scan_button.grid(row=0,column=1,ipady=15,pady=30,padx=15)
-    generer_button.grid(row=0,column=2,ipady=15,pady=30,padx=15)
-    hidato_button.grid(row=1,column=1,ipady = 15, padx=15)
+    quit_button = Button(root,text="Quitter", bg = "black", fg = "snow",command=quit)
+    saisir_button.grid(row=2,column=0,ipady=15,padx=15)
+    scan_button.grid(row=2,column=1,ipady=15,pady=30,padx=15)
+    generer_button.grid(row=2,column=2,ipady=15,pady=30,padx=15)
+    hidato_button.grid(row=3,column=1,ipady = 15, padx=15)
     button_frame.grid(row=2,column=0)
-    quit_button.grid(row=3,column=0)
+    quit_button.grid(row=4,column=0)
     Grid.rowconfigure(root,0,weight=1)
     Grid.rowconfigure(root,1,weight=1)
     Grid.rowconfigure(root,2,weight=1)
