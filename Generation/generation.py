@@ -1,5 +1,5 @@
 from random import *
-from résolution_sous_optimal import *
+from Resolution.résolution import *
 import numpy as np
 from tkinter import *
 
@@ -22,17 +22,6 @@ def grid_full():
     return grid
 
 
-def empty_count(grid):
-    """
-    compte le nombre de case vide d'une grille
-    """
-    n = len(grid)
-    count = 0
-    for i in range(n):
-        for j in range(n):
-            if grid[i][j] == 0:
-                count += 1
-    return count
 
 def unicité(grid_ref,grid):
     """
@@ -49,11 +38,11 @@ def remove_value(grid,v,p_bar):
     """
     enlève des valeurs de la grille grid jusqu'à qu'il n'en reste plus que un nombre v et met à jour la barre de progression p_bar
     """
-    def progress(currentValue):
+    def progress(p_bar,currentValue):
         """
         met à jour la barre de progression
         """
-        progressbar["value"]=currentValue
+        p_bar["value"]=currentValue
     
     grid2 = np.copy(grid)
     count = 81
@@ -63,7 +52,7 @@ def remove_value(grid,v,p_bar):
         if count2 > 500:
             return (False,grid)
         
-        p_bar.after(500, progress(81-count)) #mise à jour de la barre de progression
+        p_bar.after(500, progress(p_bar,81-count)) #mise à jour de la barre de progression
         p_bar.update() 
         x = randint(0,8)
         y = randint(0,8)
@@ -84,13 +73,13 @@ def generation(diff,p_bar):
     """
     if diff == "Facile":
         v = 32
-        p_bar[maximum] = 81-32
+        p_bar["maximum"] = 81-32
     elif diff == "Moyen":
         v = 27
-        p_bar[maximum] = 81-27
+        p_bar["maximum"] = 81-27
     else:
         v = 23
-        p_bar[maximum] = 81-23
+        p_bar["maximum"] = 81-23
 
     s = False
     while not s:

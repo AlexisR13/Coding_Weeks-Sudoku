@@ -1,4 +1,5 @@
 from tkinter import filedialog
+from tkinter import ttk
 from tkinter import *
 from functools import partial
 from Reconnaissance.photo_to_grid import *
@@ -6,7 +7,8 @@ from Resolution.résolution import *
 from resolution_optimisée import *
 from Generation.generation import *
 import numpy as np
-from Resolution.résolution_sous_optimal import *
+
+
 
 
 
@@ -32,7 +34,8 @@ def main_window():
         def destroy():
             diff = choix_difficulte.curselection()
             diff = choix_difficulte.get(diff)
-            saisir_grille(root,transform(generation(diff).tolist()))
+            p_bar = loading_bar(popup,diff)
+            saisir_grille(root,transform(generation(diff, p_bar).tolist()))
             popup.destroy()
             
 
@@ -76,6 +79,12 @@ def main_window():
     Grid.columnconfigure(button_frame,1,weight=1)
     root.mainloop()
 
+def loading_bar(window,maxValue):
+    progressbar=ttk.Progressbar(window,orient="horizontal",length=300,mode="determinate")
+    progressbar.pack(side=BOTTOM)
+    currentValue=0
+    progressbar["value"]=0
+    return progressbar
 
 
 
