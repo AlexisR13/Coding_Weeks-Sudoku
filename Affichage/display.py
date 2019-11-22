@@ -78,9 +78,7 @@ def main_window():
             game_grid[i].append('')
     saisir_button = Button(button_frame,bg = "black", fg = "white",text="Saisir la grille",command=partial(saisir_grille,root,game_grid))
     generer_button = Button(button_frame,bg = "black", fg = "white",text="Générer la grille",command=generate)
-    hidato_button = Button(button_frame,bg = "#8B2230",text="Hidato",command=partial(saisir_grille_hidato,root))
-
-
+    hidato_button = Button(button_frame,bg = "#8B2230",text="Hidato",command=partial(saisir_grille_hidato,root),width=14)
     quit_button = Button(root,text="Quitter", bg = "black", fg = "snow",command=quit)
     saisir_button.grid(row=2,column=0,ipady=15,padx=15)
     scan_button.grid(row=2,column=1,ipady=15,pady=30,padx=15)
@@ -398,6 +396,7 @@ def saisir_grille(root,grille):
         if action == 'solve':
             print(sudoku_grid)
             affiche_grille(root,resolve(transform_grid(sudoku_grid)))
+            window.destroy()
         elif action =='play':
             grille_modif = []
             for i in range(9):
@@ -405,6 +404,7 @@ def saisir_grille(root,grille):
                 for j in range(9):
                     grille_modif[i].append('')
             play_grid(root,sudoku_grid,grille_modif)
+            window.destroy()
     window = Toplevel(root)
     window.title("Saisir une grille de Sudoku")
     window.grid()
@@ -464,4 +464,3 @@ def saisir_grille(root,grille):
     Grid.rowconfigure(window,0,weight=1)
     Grid.columnconfigure(window,0,weight=1)
     
-main_window()
