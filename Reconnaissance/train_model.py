@@ -1,9 +1,13 @@
 import tensorflow as tf
 import cv2
 from grid_extractor import *
+import pickle
 
 
 def convert(ligne):
+    """
+    converti une liste d'images du format "flatten" en format matrice classique
+    """
     ligne = np.array(ligne)
     grid = np.zeros((28,28))
     for i in range(28):
@@ -12,13 +16,17 @@ def convert(ligne):
     return grid
 
 
-import pickle
-
+"""
+Importation du dataset pour l'entrainement du réseau de neuronnes
+"""
 pickle_in = open("digit-basic","rb")
 dataset = pickle.load(pickle_in)
 
 
 def index_max(ligne):
+    """
+    renvoi l'indice du plus grand élément de la liste
+    """
     i = 0
     for k in range(len(ligne)):
         if ligne[k] > ligne[i]:
@@ -33,6 +41,10 @@ y_train = np.array([index_max(x) for x in y_train])
 x_test = np.array([ convert(x) for x in x_test])
 y_test = np.array([index_max(x) for x in y_test])
 
+"""
+Initialisation de notre réseau de neuronnes
+"""
+
 model = tf.keras.models.Sequential([
 tf.keras.layers.Flatten(input_shape=(28, 28)),
 tf.keras.layers.Dense(128, activation='relu'),
@@ -45,9 +57,11 @@ model.compile(optimizer='adam',
             metrics=['accuracy'])
 
 def train():
+    """
+    entrainement du réseau de neuronnes
+    """
     model.fit(x_train, y_train, epochs=5)
 
-    #model.evaluate(x_test,  y_test, verbose=2)
 
 train()
 
